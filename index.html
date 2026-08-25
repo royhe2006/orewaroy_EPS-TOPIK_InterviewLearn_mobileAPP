@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도장 · Latihan Wawancara EPS-TOPIK</title>
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#F5F3EC;
+  --surface:#FFFFFF;
+  --surface-alt:#EBE8DD;
+  --ink:#1B2436;
+  --muted:#5B6478;
+  --line:#DCD8C9;
+  --primary:#1F3A93;
+  --primary-ink:#FFFFFF;
+  --primary-soft:#E4E9FA;
+  --accent:#B9852A;
+  --accent-soft:#F4E7C9;
+  --success:#2E7D4F;
+  --success-soft:#E1F1E6;
+  --danger:#B14A3D;
+  --danger-soft:#F7E4E0;
+  --radius-s:8px;
+  --radius-m:14px;
+  --radius-l:22px;
+  --shadow:0 2px 10px rgba(27,36,54,.06), 0 10px 30px rgba(27,36,54,.05);
+  --font-display: "Iowan Old Style","Palatino Linotype","Noto Serif KR","Georgia",serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-kr: "Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",var(--font-ui);
+}
+html.dark{
+  --bg:#0F1220;
+  --surface:#171C2E;
+  --surface-alt:#1E2438;
+  --ink:#E9EAF2;
+  --muted:#98A0B8;
+  --line:#2B3350;
+  --primary:#7691F5;
+  --primary-ink:#0F1220;
+  --primary-soft:#232C4C;
+  --accent:#E7C15C;
+  --accent-soft:#3A331B;
+  --success:#5FBE86;
+  --success-soft:#173225;
+  --danger:#E08674;
+  --danger-soft:#3A211D;
+  --shadow:0 2px 10px rgba(0,0,0,.25), 0 12px 32px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-ui);
+  -webkit-font-smoothing:antialiased;
+  transition:background .25s ease, color .25s ease;
+}
+.kr{font-family:var(--font-kr);}
+h1,h2,h3,.display{font-family:var(--font-display); font-weight:600; letter-spacing:.2px;}
+button{font-family:inherit;}
+a{color:inherit;}
+::selection{background:var(--accent-soft);}
+
+/* layout shell */
+#app{min-height:100%;}
+.view{display:none;}
+.view.active{display:block; animation:fadeIn .28s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+.shell{max-width:1200px; margin:0 auto; padding:28px 32px 64px;}
+@media (max-width:760px){ .shell{padding:18px 16px 48px;} }
+
+/* topbar */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 32px; border-bottom:1px solid var(--line);
+  position:sticky; top:0; background:var(--bg); z-index:30;
+}
+@media (max-width:760px){ .topbar{padding:14px 16px;} }
+.brand{display:flex; align-items:center; gap:12px; cursor:pointer;}
+.seal{
+  width:38px; height:38px; border-radius:50%;
+  border:2px solid var(--primary);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--primary); font-family:var(--font-kr); font-weight:700; font-size:15px;
+  transform:rotate(-8deg);
+  flex:none;
+}
+.brand-text .t1{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);}
+.brand-text .t2{font-family:var(--font-display); font-size:19px; font-weight:600;}
+.top-actions{display:flex; align-items:center; gap:10px;}
+
+/* buttons */
+.btn{
+  border:1px solid var(--line); background:var(--surface); color:var(--ink);
+  padding:10px 16px; border-radius:999px; cursor:pointer; font-size:14.5px; font-weight:600;
+  display:inline-flex; align-items:center; gap:8px; transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+}
+.btn:hover{box-shadow:var(--shadow); transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--primary); color:var(--primary-ink); border-color:var(--primary);}
+.btn-accent{background:var(--accent); color:#241a05; border-color:var(--accent);}
+.btn-ghost{background:transparent; border-color:transparent;}
+.btn-danger{background:var(--danger-soft); color:var(--danger); border-color:transparent;}
+.btn-success{background:var(--success-soft); color:var(--success); border-color:transparent;}
+.btn-sm{padding:7px 12px; font-size:13px; border-radius:999px;}
+.btn-block{width:100%; justify-content:center;}
+.btn[disabled]{opacity:.45; cursor:not-allowed; transform:none;}
+.icon-btn{
+  width:40px; height:40px; border-radius:50%; border:1px solid var(--line);
+  background:var(--surface); display:flex; align-items:center; justify-content:center; cursor:pointer;
+  font-size:17px;
+}
+.icon-btn:hover{box-shadow:var(--shadow);}
+
+/* home header */
+.hero{
+  display:flex; justify-content:space-between; align-items:flex-end; gap:24px;
+  padding:36px 0 28px; border-bottom:1px dashed var(--line); margin-bottom:28px; flex-wrap:wrap;
+}
+.hero h1{font-size:34px; margin:0 0 8px;}
+.hero p{margin:0; color:var(--muted); font-size:15.5px; max-width:520px;}
+.hero .stamp-block{
+  border:1.5px dashed var(--accent); border-radius:var(--radius-m); padding:14px 20px;
+  text-align:center; color:var(--accent); transform:rotate(-2deg); background:var(--accent-soft);
+}
+.hero .stamp-block .num{font-family:var(--font-display); font-size:26px; font-weight:700; line-height:1;}
+.hero .stamp-block .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-top:4px;}
+
+/* section headers */
+.section-head{display:flex; align-items:baseline; justify-content:space-between; margin:36px 0 16px;}
+.section-head h2{font-size:20px; margin:0;}
+.section-head .eyebrow{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px; display:block;}
+
+/* mode grid */
+.mode-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px;}
+.mode-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-l);
+  padding:22px; display:flex; flex-direction:column; gap:10px; box-shadow:var(--shadow);
+  position:relative; overflow:hidden;
+}
+.mode-card .icon{font-size:28px;}
+.mode-card h3{margin:0; font-size:18px;}
+.mode-card .desc{color:var(--muted); font-size:13.5px; min-height:34px;}
+.mode-card .meta{display:flex; gap:8px; flex-wrap:wrap; margin:2px 0 6px;}
+.tag{
+  background:var(--surface-alt); color:var(--muted); font-size:11.5px; padding:4px 9px; border-radius:999px;
+  border:1px solid var(--line);
+}
+.mode-card .go{margin-top:auto;}
+.mode-card.soon{opacity:.55;}
+.mode-card.soon::after{
+  content:"Segera Hadir"; position:absolute; top:14px; right:-32px; background:var(--muted); color:var(--surface);
+  font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 38px; transform:rotate(35deg);
+}
+.data-card{border-color:var(--primary); background:linear-gradient(180deg, var(--primary-soft), var(--surface) 70%);}
+.voice-card{border-color:var(--accent); background:linear-gradient(180deg, var(--accent-soft), var(--surface) 70%);}
+
+/* two column dashboard row */
+.dash-row{display:grid; grid-template-columns:1.4fr 1fr; gap:20px; align-items:start;}
+@media (max-width:900px){ .dash-row{grid-template-columns:1fr;} }
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-l); padding:22px; box-shadow:var(--shadow);}
+.panel h3{margin:0 0 4px; font-size:17px;}
+.panel .sub{color:var(--muted); font-size:13px; margin-bottom:14px;}
+
+/* history list */
+.hist-row{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:11px 0; border-bottom:1px solid var(--line);
+}
+.hist-row:last-child{border-bottom:none;}
+.hist-left{display:flex; flex-direction:column; gap:2px;}
+.hist-left .m{font-weight:700; font-size:14px;}
+.hist-left .d{font-size:12px; color:var(--muted);}
+.hist-score{font-family:var(--font-display); font-weight:700; font-size:15px; color:var(--primary);}
+.chartbars{display:flex; align-items:flex-end; gap:6px; height:70px; margin-top:6px;}
+.chartbars .bar{flex:1; background:var(--primary-soft); border-radius:6px 6px 0 0; position:relative; min-height:4px;}
+.chartbars .bar span{position:absolute; inset:auto 0 -18px 0; text-align:center; font-size:9.5px; color:var(--muted);}
+.chartbars .bar b{position:absolute; top:-16px; left:0; right:0; text-align:center; font-size:10px; color:var(--primary);}
+.empty{color:var(--muted); font-size:13.5px; padding:14px 0; text-align:center;}
+
+/* forms */
+.field{margin-bottom:16px;}
+.field label{display:block; font-size:13px; font-weight:700; margin-bottom:6px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+textarea, input[type=text], input[type=search], select{
+  width:100%; padding:11px 13px; border-radius:var(--radius-s); border:1px solid var(--line);
+  background:var(--surface); color:var(--ink); font-size:14.5px; font-family:var(--font-ui);
+}
+textarea{font-family:var(--font-kr); min-height:220px; resize:vertical; line-height:1.6;}
+select{cursor:pointer;}
+.row{display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
+.slider-row{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+.slider-row label{flex:0 0 130px; font-size:13px; color:var(--muted); font-weight:600;}
+input[type=range]{flex:1; accent-color:var(--primary);}
+.slider-val{width:52px; text-align:right; font-variant-numeric:tabular-nums; font-size:13px; color:var(--ink); font-weight:700;}
+.toggle{display:inline-flex; align-items:center; gap:10px; cursor:pointer; user-select:none;}
+.switch{width:42px; height:24px; border-radius:999px; background:var(--surface-alt); border:1px solid var(--line); position:relative; transition:background .2s;}
+.switch::after{content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:var(--surface); box-shadow:0 1px 3px rgba(0,0,0,.3); transition:transform .2s;}
+.switch.on{background:var(--primary); border-color:var(--primary);}
+.switch.on::after{transform:translateX(18px); background:#fff;}
+
+/* alert / banners */
+.banner{padding:14px 16px; border-radius:var(--radius-m); font-size:13.5px; margin-bottom:16px; border:1px solid transparent;}
+.banner.warn{background:var(--danger-soft); color:var(--danger); border-color:var(--danger);}
+.banner.ok{background:var(--success-soft); color:var(--success); border-color:var(--success);}
+.banner.info{background:var(--primary-soft); color:var(--primary); border-color:var(--primary);}
+.banner ul{margin:8px 0 0; padding-left:18px;}
+
+/* question list (manage data) */
+.qlist{margin-top:10px;}
+.qrow{
+  display:flex; gap:18px; align-items:flex-start; padding:22px 24px; border:1px solid var(--line);
+  border-radius:var(--radius-m); margin-bottom:16px; background:var(--surface);
+}
+.qrow .qtext{flex:1; min-width:0;}
+.qrow .qtext .q{font-family:var(--font-kr); font-weight:700; font-size:19px; line-height:1.4;}
+.qrow .qtext .a{font-family:var(--font-kr); color:var(--muted); font-size:16px; margin-top:8px; line-height:1.5;}
+.qrow .qtext .speak-row{display:flex; align-items:center; gap:8px; margin:8px 0;}
+.qrow .qtext .speak-row .lbl{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;}
+.qrow .qactions{display:flex; gap:6px; flex:none;}
+.badge-mastery{font-size:10.5px; padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:middle;}
+.badge-mastered{background:var(--success-soft); color:var(--success);}
+.badge-practicing{background:var(--danger-soft); color:var(--danger);}
+.badge-new{background:var(--surface-alt); color:var(--muted);}
+
+/* status filter tabs (bank soal + setup latihan) */
+.status-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+.status-tabs .btn.on{background:var(--primary); color:var(--primary-ink); border-color:var(--primary);}
+.group-head{display:flex; align-items:center; gap:10px; margin:18px 0 10px; font-weight:700; font-size:13.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;}
+.group-head:first-child{margin-top:0;}
+.group-head .cnt{background:var(--surface-alt); color:var(--muted); font-size:11px; padding:2px 8px; border-radius:999px;}
+
+/* chip checkboxes (perkenalan: anggota keluarga) */
+.chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+.chip-check{display:inline-flex; align-items:center; gap:6px; border:1px solid var(--line); background:var(--surface); padding:7px 12px; border-radius:999px; cursor:pointer; font-size:13.5px; user-select:none;}
+.chip-check input{margin:0;}
+.chip-check.on{background:var(--primary-soft); border-color:var(--primary); color:var(--primary); font-weight:700;}
+.intro-preview{white-space:pre-line; font-family:var(--font-kr); font-size:16px; line-height:1.9; background:var(--surface-alt); border-radius:var(--radius-m); padding:20px 22px; margin-top:14px;}
+.tts-saved-row{display:flex; flex-direction:column; gap:8px; padding:14px 16px; border:1px solid var(--line); border-radius:var(--radius-m); margin-bottom:12px; background:var(--surface-alt);}
+.tts-saved-row:last-child{margin-bottom:0;}
+.tts-saved-row .ttl{font-weight:700; font-size:14px; color:var(--ink);}
+.tts-saved-row .txt{font-family:var(--font-kr); font-size:15px; min-width:0; overflow-wrap:anywhere; line-height:1.55; color:var(--muted);}
+.tts-saved-row .tts-row-actions{display:flex; gap:8px; flex-wrap:wrap;}
+
+/* modal */
+.overlay{position:fixed; inset:0; background:rgba(15,18,32,.5); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+.overlay.active{display:flex;}
+.modal{background:var(--surface); border-radius:var(--radius-l); padding:26px; width:100%; max-width:480px; box-shadow:var(--shadow); max-height:86vh; overflow:auto;}
+.modal h3{margin-top:0;}
+
+/* practice layouts */
+.practice-shell{display:grid; grid-template-columns:1fr 320px; gap:22px; align-items:start;}
+@media (max-width:900px){ .practice-shell{grid-template-columns:1fr;} }
+.practice-main{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-l); padding:40px; box-shadow:var(--shadow); min-height:360px; display:flex; flex-direction:column;}
+.practice-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;}
+.progress-pill{font-size:13px; color:var(--muted); font-weight:700;}
+.progress-bar{height:6px; border-radius:99px; background:var(--surface-alt); overflow:hidden; margin-top:6px;}
+.progress-bar > div{height:100%; background:var(--primary); transition:width .25s ease;}
+.q-stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:18px; padding:20px 0;}
+.q-stage .qmain{font-family:var(--font-kr); font-size:clamp(26px,4vw,40px); font-weight:700; line-height:1.4;}
+.q-stage .math-eq{font-family:var(--font-display); font-size:clamp(38px,6vw,58px); font-weight:700; letter-spacing:1px;}
+.q-stage .answer-box{font-family:var(--font-kr); font-size:clamp(20px,3vw,28px); color:var(--primary); font-weight:700; background:var(--primary-soft); padding:16px 26px; border-radius:var(--radius-m); margin-top:6px;}
+.q-stage .translation{color:var(--muted); font-size:14px;}
+.practice-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;}
+.timer-ring{width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; border:3px solid var(--accent); color:var(--accent);}
+.side-panel{display:flex; flex-direction:column; gap:16px;}
+.mastery-row{display:flex; gap:8px;}
+.mastery-row button{flex:1;}
+.sound-mini{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted);}
+
+/* summary */
+.summary-wrap{max-width:640px; margin:40px auto; text-align:center;}
+.summary-seal{width:110px; height:110px; margin:0 auto 20px; border-radius:50%; border:3px double var(--accent); display:flex; align-items:center; justify-content:center; color:var(--accent); font-family:var(--font-kr); font-weight:700; font-size:15px; transform:rotate(-6deg);}
+.summary-stats{display:flex; gap:16px; justify-content:center; margin:22px 0; flex-wrap:wrap;}
+.stat-box{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m); padding:16px 22px; min-width:120px;}
+.stat-box .n{font-family:var(--font-display); font-size:28px; font-weight:700;}
+.stat-box .l{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em;}
+
+/* footer nav small */
+.back-link{display:inline-flex; align-items:center; gap:6px; color:var(--ink); font-size:13.5px; font-weight:700; margin-bottom:18px; cursor:pointer; background:var(--accent-soft); border:none; border-left:5px solid var(--accent); padding:9px 14px; border-radius:0 8px 8px 0; font-family:inherit;}
+.back-link:hover{color:var(--ink); box-shadow:var(--shadow);}
+
+.settings-in-modal .field{margin-bottom:14px;}
+.divider{height:1px; background:var(--line); margin:20px 0;}
+.small-note{font-size:12px; color:var(--muted); margin-top:6px;}
+
+/* manual order builder grid */
+.manual-builder-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;}
+
+/* ============================================================
+   MOBILE (phone) OPTIMIZATION — same features, tighter layout
+   ============================================================ */
+@media (max-width:600px){
+  .shell{padding:14px 12px 40px;}
+  .topbar{padding:12px 14px;}
+  .brand{gap:9px;}
+  .seal{width:32px; height:32px; font-size:12px;}
+  .brand-text .t1{font-size:9.5px; letter-spacing:.08em;}
+  .brand-text .t2{font-size:15px;}
+  .icon-btn{width:36px; height:36px; font-size:15px;}
+
+  .hero{padding:20px 0 18px; margin-bottom:18px; gap:14px; flex-direction:column; align-items:flex-start;}
+  .hero h1{font-size:24px;}
+  .hero p{font-size:14px; max-width:none;}
+  .hero .stamp-block{align-self:stretch; transform:none;}
+
+  .section-head{margin:24px 0 12px; flex-direction:column; align-items:flex-start; gap:4px;}
+
+  .mode-grid{grid-template-columns:1fr; gap:12px;}
+  .mode-card{padding:16px;}
+
+  .dash-row{gap:14px;}
+  .panel{padding:16px;}
+  .panel h3{font-size:15.5px;}
+
+  .btn{padding:10px 14px; font-size:14px;}
+  .row{gap:8px;}
+  .row .btn{flex:1 1 auto;}
+
+  .slider-row{flex-wrap:wrap; gap:6px;}
+  .slider-row label{flex:1 1 100%; margin-bottom:2px;}
+  input[type=range]{flex:1 1 auto;}
+  .slider-val{width:auto; margin-left:auto;}
+
+  /* question bank list (Kelola Data) */
+  .qrow{flex-direction:column; padding:16px; gap:10px;}
+  .qrow .qtext .q{font-size:16.5px;}
+  .qrow .qtext .a{font-size:14.5px;}
+  .qrow .qactions{width:100%; justify-content:flex-end;}
+
+  /* manage data import/list columns already stack via .dash-row at 900px */
+  textarea{min-height:150px;}
+
+  /* modal */
+  .modal{padding:18px; max-height:90vh; border-radius:var(--radius-m);}
+  .manual-builder-grid{grid-template-columns:1fr; gap:10px;}
+  .manual-builder-grid > div{max-height:220px !important;}
+
+  /* practice screens */
+  .practice-main{padding:22px 18px; min-height:auto;}
+  .practice-top{flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .progress-pill{font-size:12px; flex:1 1 auto;}
+  .q-stage{padding:10px 0; gap:14px;}
+  .q-stage .qmain{font-size:clamp(21px,6vw,28px);}
+  .q-stage .answer-box{padding:12px 18px; font-size:clamp(17px,5vw,22px);}
+  .practice-actions{gap:8px;}
+  .practice-actions .btn{flex:1 1 auto; justify-content:center;}
+  .timer-ring{width:46px; height:46px; font-size:13px;}
+  .side-panel{gap:12px;}
+
+  /* summary screens */
+  .summary-wrap{margin:20px auto;}
+  .summary-seal{width:84px; height:84px; font-size:13px;}
+  .summary-stats{gap:10px;}
+  .stat-box{padding:12px 16px; min-width:96px; flex:1 1 auto;}
+  .stat-box .n{font-size:22px;}
+
+  .hist-row{flex-wrap:wrap; gap:8px;}
+}
+</style>
+</head>
+<body>
+<div class="overlay" id="modalOverlay"><div class="modal" id="modalBody"></div></div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="brand" onclick="Nav.go('home')">
+      <div class="seal kr">한국</div>
+      <div class="brand-text">
+        <div class="t1">EPS-TOPIK INTERVIEW LEARNING</div>
+        <div class="t2 display">By OREWA-ROY</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" title="Ganti tema" onclick="Theme.toggle()">🌙</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="view active" id="view-home">
+    <div class="shell">
+      <div class="hero">
+        <div>
+          <h1 class="display">화이팅! Semangat Latihan.</h1>
+          <p>Latih wawancara, gerakan, dan hitungan Korea sampai lancar — satu file, jalan offline, datamu tersimpan di perangkat ini.</p>
+        </div>
+        <div class="stamp-block" id="heroStamp">
+          <div class="num">0%</div>
+          <div class="lbl">Rata-rata dikuasai</div>
+        </div>
+      </div>
+
+      <div class="mode-grid" id="modeGrid"></div>
+
+      <div class="section-head">
+        <div><span class="eyebrow" style="display:block;">Kelola</span><h2>BANK SOAL</h2></div>
+      </div>
+      <div class="panel">
+        <div class="sub">Total data yang sudah kamu impor.</div>
+        <div id="bankSummary"></div>
+      </div>
+
+      <div class="section-head">
+        <div><span class="eyebrow" style="display:block;">Riwayat</span><h2>Progres dari Waktu ke Waktu</h2></div>
+      </div>
+      <div class="panel">
+        <div class="sub">Skor beberapa sesi terakhirmu.</div>
+        <div id="historyChart" class="chartbars"></div>
+        <div class="divider"></div>
+        <div id="historyList"></div>
+        <div class="row" style="margin-top:14px; justify-content:flex-end;">
+          <button class="btn btn-danger btn-sm" onclick="History.clearAllConfirm()">Hapus Semua Riwayat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGE DATA -->
+  <div class="view" id="view-manage">
+    <div class="shell">
+      <button class="back-link" onclick="Nav.go('home')">← Kembali ke Beranda</button>
+      <span class="eyebrow" style="display:block;">Kelola Data</span>
+      <h1 class="display" style="margin-top:2px;">Bank Soal</h1>
+      <p style="color:var(--muted); max-width:640px;">Tempel teks soal wawancara atau gerakan, lalu proses. Data tersimpan otomatis di perangkat ini.</p>
+
+      <div class="row" style="margin:18px 0 22px;">
+        <button class="btn btn-primary" id="tabInterview" onclick="ManageData.switchTab('interview')">Wawancara (Q/A)</button>
+        <button class="btn" id="tabMovement" onclick="ManageData.switchTab('movement')">Gerakan (CMD)</button>
+        <div style="flex:1"></div>
+        <button class="btn" onclick="Backup.exportAll()">⭳ Export .json</button>
+        <button class="btn" onclick="document.getElementById('importFile').click()">⭱ Import dari File</button>
+        <input type="file" id="importFile" accept="application/json" style="display:none" onchange="Backup.importFile(event)">
+      </div>
+
+      <div class="dash-row">
+        <div class="panel">
+          <h3 id="importTitle">Tempel Soal Wawancara</h3>
+          <div class="sub" id="importFormatHint">Format: <code>Q: pertanyaan</code> baris berikutnya <code>A: jawaban</code>, pisahkan blok dengan <code>---</code></div>
+          <div class="field">
+            <textarea id="importText" placeholder="Q: 자기소개를 해 보세요.
+A: 안녕하세요. 제 이름은...
+---"></textarea>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary" onclick="ManageData.processText()">Proses</button>
+            <button class="btn btn-ghost" onclick="document.getElementById('importText').value=''">Bersihkan</button>
+          </div>
+          <div id="importResult" style="margin-top:16px;"></div>
+        </div>
+        <div class="panel">
+          <h3>Daftar Soal Tersimpan</h3>
+          <div class="status-tabs" id="statusTabs"></div>
+          <div class="status-tabs" id="tagTabs" style="display:none;"></div>
+          <div class="field" style="margin-bottom:10px;">
+            <input type="search" id="searchBox" placeholder="Cari soal..." oninput="ManageData.renderList()">
+          </div>
+          <div class="sub" id="listCount"></div>
+          <div class="qlist" id="qList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODE 1: INTERVIEW -->
+  <div class="view" id="view-mode1">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('interview')">← Kembali ke Beranda</button>
+      <div id="mode1-setup"></div>
+      <div id="mode1-play" style="display:none;"></div>
+      <div id="mode1-summary" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- MODE 2: MOVEMENT -->
+  <div class="view" id="view-mode2">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('movement')">← Kembali ke Beranda</button>
+      <div id="mode2-setup"></div>
+      <div id="mode2-play" style="display:none;"></div>
+      <div id="mode2-summary" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- MODE 3: MATH -->
+  <div class="view" id="view-mode3">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('math')">← Kembali ke Beranda</button>
+      <div id="mode3-setup"></div>
+      <div id="mode3-play" style="display:none;"></div>
+      <div id="mode3-summary" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- MODE EXAM -->
+  <div class="view" id="view-exam">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('exam')">← Kembali ke Beranda</button>
+      <div id="exam-setup"></div>
+      <div id="exam-play" style="display:none;"></div>
+      <div id="exam-summary" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- MODE TTS -->
+  <div class="view" id="view-tts">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('tts')">← Kembali ke Beranda</button>
+      <div id="tts-body"></div>
+    </div>
+  </div>
+
+  <!-- MODE PERKENALAN -->
+  <div class="view" id="view-intro">
+    <div class="shell">
+      <button class="back-link" onclick="Practice.exitConfirm('intro')">← Kembali ke Beranda</button>
+      <div id="intro-body"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   STORAGE HELPERS
+   ============================================================ */
+const Store = {
+  get(key, fallback){ try{ const v = localStorage.getItem(key); return v===null? fallback : JSON.parse(v); }catch(e){ return fallback; } },
+  set(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){ console.error('storage error', e); } },
+  del(key){ localStorage.removeItem(key); }
+};
+const uid = () => 'q'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ============================================================
+   THEME
+   ============================================================ */
+const Theme = {
+  init(){
+    const mode = Store.get('theme_mode','light');
+    document.documentElement.classList.toggle('dark', mode==='dark');
+    document.getElementById('themeBtn').textContent = mode==='dark' ? '☀️' : '🌙';
+  },
+  toggle(){
+    const isDark = document.documentElement.classList.toggle('dark');
+    Store.set('theme_mode', isDark ? 'dark':'light');
+    document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+  }
+};
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+const Nav = {
+  go(view){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+view).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+    if(view==='home') Home.render();
+    if(view==='manage') ManageData.render();
+  }
+};
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+const Modal = {
+  open(html){
+    document.getElementById('modalBody').innerHTML = html;
+    document.getElementById('modalOverlay').classList.add('active');
+  },
+  close(){ document.getElementById('modalOverlay').classList.remove('active'); }
+};
+document.getElementById('modalOverlay').addEventListener('click', (e)=>{ if(e.target.id==='modalOverlay') Modal.close(); });
+
+/* ============================================================
+   VOICE / TTS  (global settings + speech engine)
+   ============================================================ */
+const Voice = {
+  voices:[],
+  defaults:{ voiceURI:null, rate:0.95, pitch:1, volume:1, autoNext:true, delayInterview:5, delayMovement:5, delayMath:4, delayExam:12 },
+  settings(){ return Object.assign({}, this.defaults, Store.get('voice_settings',{})); },
+  save(s){ Store.set('voice_settings', s); },
+  loadVoices(){
+    return new Promise(resolve=>{
+      let list = speechSynthesis.getVoices();
+      if(list.length){ this.voices=list; resolve(list); return; }
+      speechSynthesis.onvoiceschanged = ()=>{
+        this.voices = speechSynthesis.getVoices();
+        resolve(this.voices);
+      };
+      setTimeout(()=>{ this.voices = speechSynthesis.getVoices(); resolve(this.voices); }, 800);
+    });
+  },
+  koreanVoices(){ return this.voices.filter(v=> v.lang && v.lang.toLowerCase().startsWith('ko')); },
+  speak(text, onend){
+    if(!('speechSynthesis' in window)){ if(onend) onend(); return; }
+    speechSynthesis.cancel();
+    const s = this.settings();
+    const u = new SpeechSynthesisUtterance(text);
+    const kv = this.koreanVoices();
+    let chosen = kv.find(v=>v.voiceURI===s.voiceURI) || kv[0];
+    if(chosen) u.voice = chosen;
+    u.lang = 'ko-KR';
+    u.rate = s.rate; u.pitch = s.pitch; u.volume = s.volume;
+    u.onend = ()=>{ if(onend) onend(); };
+    u.onerror = ()=>{ if(onend) onend(); };
+    speechSynthesis.speak(u);
+  },
+  stop(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+};
+
+/* ============================================================
+   SINO-KOREAN NUMBER CONVERSION
+   ============================================================ */
+const SinoKorean = {
+  digits:['','일','이','삼','사','오','육','칠','팔','구'],
+  units:['','십','백','천'],
+  bigUnits:['','만','억'],
+  convertUpTo9999(n){
+    if(n===0) return '영';
+    let group = ['','','',''];
+    let s = String(n).padStart(4,'0').split('').map(Number);
+    // s[0]=thousands, s[1]=hundreds, s[2]=tens, s[3]=ones
+    let out = '';
+    const place = ['천','백','십',''];
+    for(let i=0;i<4;i++){
+      const d = s[i];
+      if(d===0) continue;
+      if(d===1 && place[i]!=='') out += place[i];
+      else out += this.digits[d] + place[i];
+    }
+    return out;
+  },
+  toText(n){
+    if(n===0) return '영';
+    if(n<0) return '마이너스 ' + this.toText(-n);
+    if(n<10000) return this.convertUpTo9999(n);
+    // fallback for bigger numbers, not expected in this app
+    const man = Math.floor(n/10000), rest = n%10000;
+    return (man>1? this.convertUpTo9999(man):'') + '만' + (rest? this.convertUpTo9999(rest):'');
+  },
+  hasFinalConsonant(str){
+    const ch = str[str.length-1];
+    const code = ch.charCodeAt(0) - 0xAC00;
+    if(code<0 || code>11171) return false;
+    return (code % 28) !== 0;
+  },
+  particle(n){
+    const txt = this.toText(n);
+    return this.hasFinalConsonant(txt) ? '은' : '는';
+  }
+};
+
+/* ============================================================
+   QUESTION BANKS  (interview_data / movement_data)
+   ============================================================ */
+const Bank = {
+  getInterview(){ return Store.get('interview_data', []); },
+  setInterview(arr){ Store.set('interview_data', arr); },
+  getMovement(){ return Store.get('movement_data', []); },
+  setMovement(arr){ Store.set('movement_data', arr); },
+
+  parseInterview(text){
+    const blocks = text.split(/\n?---\n?/).map(b=>b.trim()).filter(b=>b.length);
+    const good = [], bad = [];
+    blocks.forEach((block, idx)=>{
+      const qm = block.match(/Q:\s*([\s\S]*?)(?:\nA:|$)/);
+      const am = block.match(/A:\s*([\s\S]*)/);
+      const q = qm ? qm[1].trim() : '';
+      const a = am ? am[1].trim() : '';
+      if(q && a){ good.push({id:uid(), q, a, mastery:'new', tag:''}); }
+      else{ bad.push({index: idx+1, snippet: block.slice(0,60)}); }
+    });
+    return {good, bad};
+  },
+  parseMovement(text){
+    const blocks = text.split(/\n?---\n?/).map(b=>b.trim()).filter(b=>b.length);
+    const good = [], bad = [];
+    blocks.forEach((block, idx)=>{
+      const m = block.match(/CMD:\s*([\s\S]*)/);
+      if(!m){ bad.push({index: idx+1, snippet: block.slice(0,60)}); return; }
+      let raw = m[1].trim();
+      let [cmd, translation] = raw.split('|').map(x=>x? x.trim(): '');
+      if(!cmd){ bad.push({index: idx+1, snippet: block.slice(0,60)}); return; }
+      good.push({id:uid(), cmd, translation: translation||'', mastery:'new'});
+    });
+    return {good, bad};
+  }
+};
+
+/* ============================================================
+   TAG / KATEGORI EDITOR (khusus soal wawancara)
+   Setiap nama tag dipetakan ke warna tetap yang sama setiap saat.
+   ============================================================ */
+const TagEditor = {
+  palette:['#1F3A93','#B9852A','#2E7D4F','#B14A3D','#6B4E9E','#0E7C86','#A23E76','#4C6B22','#8A5A2B','#2B5F8A','#C0527A','#3E8E7E'],
+  colorFor(tag){
+    if(!tag) return null;
+    let hash = 0;
+    for(let i=0;i<tag.length;i++){ hash = (hash*31 + tag.charCodeAt(i)) >>> 0; }
+    return this.palette[hash % this.palette.length];
+  },
+  chipHtml(tag){
+    if(!tag) return `<span class="tag" style="opacity:.55;">Tanpa Tag</span>`;
+    const c = this.colorFor(tag);
+    return `<span class="tag" style="background:${c}22; color:${c}; border-color:${c}66; font-weight:700;">🏷 ${escapeHtml(tag)}</span>`;
+  },
+  allTags(){
+    const set = new Set();
+    Bank.getInterview().forEach(x=>{ if(x.tag) set.add(x.tag); });
+    return Array.from(set).sort();
+  },
+  open(itemId, onSaved){
+    const iv = Bank.getInterview();
+    const item = iv.find(x=>x.id===itemId);
+    if(!item) return;
+    this._onSaved = onSaved;
+    const dl = this.allTags().map(t=>`<option value="${escapeHtml(t)}">`).join('');
+    Modal.open(`
+      <h3>🏷️ Tag / Kategori Soal</h3>
+      <div class="sub" style="margin-bottom:10px;">Beri nama kelompok bebas — misalnya Pribadi, Keluarga, Tempat Kerja, Sikap, dll. Soal dengan tag yang sama akan tampil dengan warna yang sama.</div>
+      <div class="field"><label>Nama Tag</label><input type="text" id="tagEditInput" list="tagEditList" value="${escapeHtml(item.tag||'')}" placeholder="contoh: Keluarga"></div>
+      <datalist id="tagEditList">${dl}</datalist>
+      <div class="row">
+        <button class="btn btn-primary" onclick="TagEditor.save('${itemId}')">Simpan</button>
+        <button class="btn btn-ghost" onclick="TagEditor.clear('${itemId}')">Hapus Tag</button>
+        <button class="btn btn-ghost" onclick="Modal.close()">Batal</button>
+      </div>`);
+  },
+  save(itemId){
+    const val = (document.getElementById('tagEditInput').value||'').trim();
+    this.apply(itemId, val);
+  },
+  clear(itemId){ this.apply(itemId, ''); },
+  apply(itemId, val){
+    const iv = Bank.getInterview();
+    const item = iv.find(x=>x.id===itemId);
+    if(item){ item.tag = val; Bank.setInterview(iv); }
+    Modal.close();
+    if(this._onSaved) this._onSaved(val);
+  }
+};
+
+/* ============================================================
+   MANAGE DATA VIEW
+   ============================================================ */
+const ManageData = {
+  tab:'interview',
+  statusFilter:'all',
+  tagFilter:'all',
+  setStatusFilter(f){ this.statusFilter = f; this.renderList(); },
+  setTagFilter(f){ this.tagFilter = f; this.renderList(); },
+  switchTab(tab){
+    this.tab = tab;
+    this.statusFilter = 'all';
+    this.tagFilter = 'all';
+    document.getElementById('tabInterview').className = 'btn ' + (tab==='interview'?'btn-primary':'');
+    document.getElementById('tabMovement').className = 'btn ' + (tab==='movement'?'btn-primary':'');
+    document.getElementById('importTitle').textContent = tab==='interview' ? 'Tempel Soal Wawancara' : 'Tempel Instruksi Gerakan';
+    document.getElementById('importFormatHint').innerHTML = tab==='interview'
+      ? 'Format: <code>Q: pertanyaan</code> baris berikutnya <code>A: jawaban</code>, pisahkan blok dengan <code>---</code>'
+      : 'Format: <code>CMD: instruksi | terjemahan opsional</code>, pisahkan blok dengan <code>---</code>';
+    document.getElementById('importText').placeholder = tab==='interview'
+      ? 'Q: 자기소개를 해 보세요.\nA: 안녕하세요. 제 이름은...\n---'
+      : 'CMD: 일어나서 문쪽으로 걸어가세요. | Berdiri dan berjalan ke arah pintu\n---';
+    document.getElementById('importResult').innerHTML = '';
+    this.renderList();
+  },
+  render(){
+    this.switchTab(this.tab);
+  },
+  processText(){
+    const text = document.getElementById('importText').value;
+    if(!text.trim()){ return; }
+    const result = this.tab==='interview' ? Bank.parseInterview(text) : Bank.parseMovement(text);
+    let html = `<div class="banner ok">${result.good.length} soal terdeteksi valid.</div>`;
+    if(result.bad.length){
+      html += `<div class="banner warn"><b>${result.bad.length} blok bermasalah</b> (format tidak lengkap):<ul>`;
+      result.bad.forEach(b=>{ html += `<li>Blok #${b.index}: "${escapeHtml(b.snippet)}..."</li>`; });
+      html += `</ul>Perbaiki di teks asli lalu proses ulang.</div>`;
+    }
+    if(result.good.length){
+      html += `<div class="row"><button class="btn btn-primary" onclick="ManageData.commit('append')">Tambah ke Bank Soal</button>
+      <button class="btn btn-danger" onclick="ManageData.commit('replace')">Ganti Semua</button></div>`;
+    }
+    document.getElementById('importResult').innerHTML = html;
+    this._pending = result.good;
+  },
+  commit(mode){
+    const key = this.tab==='interview' ? 'interview_data':'movement_data';
+    let current = Store.get(key, []);
+    if(mode==='replace') current = this._pending;
+    else current = current.concat(this._pending);
+    Store.set(key, current);
+    document.getElementById('importResult').innerHTML = `<div class="banner ok">Tersimpan. Total sekarang: ${current.length} soal.</div>`;
+    document.getElementById('importText').value = '';
+    this.renderList();
+  },
+  statusLabels:{new:'Baru', practicing:'Latihan', mastered:'Kuasai'},
+  renderRow(item){
+    const badge = item.mastery==='mastered' ? '<span class="badge-mastery badge-mastered">Kuasai</span>'
+      : item.mastery==='practicing' ? '<span class="badge-mastery badge-practicing">Latihan</span>' : '<span class="badge-mastery badge-new">Baru</span>';
+    const tagChip = this.tab==='interview' ? ` ${TagEditor.chipHtml(item.tag)}` : '';
+    const main = this.tab==='interview'
+      ? `<div class="q kr">${escapeHtml(item.q)} ${badge}${tagChip}</div>
+         <div class="speak-row"><button class="icon-btn" style="width:32px;height:32px;font-size:14px;" title="Dengar pertanyaan" onclick="Voice.speak('${escJs(item.q)}')">🔊</button><span class="lbl">Dengar pertanyaan</span></div>
+         <div class="a kr">${escapeHtml(item.a)}</div>
+         <div class="speak-row"><button class="icon-btn" style="width:32px;height:32px;font-size:14px;" title="Dengar jawaban" onclick="Voice.speak('${escJs(item.a)}')">🔊</button><span class="lbl">Dengar jawaban</span></div>`
+      : `<div class="q kr">${escapeHtml(item.cmd)} ${badge}</div>
+         <div class="speak-row"><button class="icon-btn" style="width:32px;height:32px;font-size:14px;" title="Dengar instruksi" onclick="Voice.speak('${escJs(item.cmd)}')">🔊</button><span class="lbl">Dengar instruksi</span></div>
+         <div class="a">${escapeHtml(item.translation||'')}</div>`;
+    const tagBtn = this.tab==='interview' ? `<button class="btn btn-sm" onclick="TagEditor.open('${item.id}', ()=>ManageData.renderList())">🏷️ Tag</button>` : '';
+    return `<div class="qrow">
+      <div class="qtext">${main}</div>
+      <div class="qactions">
+        <button class="btn btn-sm" onclick="ManageData.editItem('${item.id}')">Edit</button>
+        ${tagBtn}
+        <button class="btn btn-sm btn-danger" onclick="ManageData.deleteItem('${item.id}')">Hapus</button>
+      </div>
+    </div>`;
+  },
+  renderList(){
+    const key = this.tab==='interview' ? 'interview_data':'movement_data';
+    const data = Store.get(key, []);
+    const q = (document.getElementById('searchBox').value||'').toLowerCase();
+    const searched = data.filter(item=>{
+      const hay = this.tab==='interview' ? (item.q+' '+item.a) : (item.cmd+' '+item.translation);
+      return hay.toLowerCase().includes(q);
+    });
+    const statusOf = item => item.mastery==='mastered' ? 'mastered' : (item.mastery==='practicing' ? 'practicing' : 'new');
+    const counts = {all:searched.length, new:0, practicing:0, mastered:0};
+    searched.forEach(item=> counts[statusOf(item)]++);
+    const tabsEl = document.getElementById('statusTabs');
+    const tabDefs = [['all','Semua'],['new','Baru'],['practicing','Latihan'],['mastered','Kuasai']];
+    tabsEl.innerHTML = tabDefs.map(([key2,label])=>
+      `<button class="btn btn-sm ${this.statusFilter===key2?'on':''}" onclick="ManageData.setStatusFilter('${key2}')">${label} (${counts[key2]})</button>`
+    ).join('');
+    let filtered = this.statusFilter==='all' ? searched : searched.filter(item=>statusOf(item)===this.statusFilter);
+
+    const tagTabsEl = document.getElementById('tagTabs');
+    if(this.tab==='interview'){
+      const tagCounts = {};
+      searched.forEach(item=>{ const t = item.tag||'__none__'; tagCounts[t] = (tagCounts[t]||0)+1; });
+      const tagKeys = Object.keys(tagCounts).filter(t=>t!=='__none__').sort();
+      let html = `<button class="btn btn-sm ${this.tagFilter==='all'?'on':''}" onclick="ManageData.setTagFilter('all')">Semua Tag (${searched.length})</button>`;
+      tagKeys.forEach(t=>{
+        const c = TagEditor.colorFor(t);
+        const on = this.tagFilter===t;
+        const style = on ? `background:${c};color:#fff;border-color:${c};` : `border-color:${c}66;color:${c};`;
+        html += `<button class="btn btn-sm" style="${style}" onclick="ManageData.setTagFilter('${escJs(t)}')">${escapeHtml(t)} (${tagCounts[t]})</button>`;
+      });
+      if(tagCounts['__none__']) html += `<button class="btn btn-sm ${this.tagFilter==='__none__'?'on':''}" onclick="ManageData.setTagFilter('__none__')">Tanpa Tag (${tagCounts['__none__']})</button>`;
+      tagTabsEl.innerHTML = html;
+      tagTabsEl.style.display = 'flex';
+      filtered = this.tagFilter==='all' ? filtered : filtered.filter(item=> (item.tag||'__none__')===this.tagFilter);
+    } else if(tagTabsEl){
+      tagTabsEl.style.display = 'none';
+      tagTabsEl.innerHTML = '';
+    }
+
+    document.getElementById('listCount').textContent = `${filtered.length} dari ${data.length} soal ditampilkan`;
+    const el = document.getElementById('qList');
+    if(!filtered.length){ el.innerHTML = '<div class="empty">Belum ada soal. Tempel teks di sebelah kiri untuk mulai.</div>'; return; }
+    if(this.statusFilter!=='all'){
+      el.innerHTML = filtered.map(item=>this.renderRow(item)).join('');
+      return;
+    }
+    // grouped view per status
+    const groups = [['new','Baru'],['practicing','Latihan'],['mastered','Kuasai']];
+    el.innerHTML = groups.map(([gKey,gLabel])=>{
+      const items = filtered.filter(item=>statusOf(item)===gKey);
+      if(!items.length) return '';
+      return `<div class="group-head">${gLabel} <span class="cnt">${items.length}</span></div>` + items.map(item=>this.renderRow(item)).join('');
+    }).join('');
+  },
+  editItem(id){
+    const key = this.tab==='interview' ? 'interview_data':'movement_data';
+    const data = Store.get(key, []);
+    const item = data.find(x=>x.id===id);
+    if(!item) return;
+    const html = this.tab==='interview'
+      ? `<h3>Edit Soal</h3>
+         <div class="field"><label>Pertanyaan</label><textarea id="editQ" class="kr" style="min-height:80px;">${escapeHtml(item.q)}</textarea></div>
+         <div class="field"><label>Jawaban</label><textarea id="editA" class="kr" style="min-height:80px;">${escapeHtml(item.a)}</textarea></div>
+         <div class="field"><label>Tag / Kategori</label><input type="text" id="editTag" list="editTagList" value="${escapeHtml(item.tag||'')}" placeholder="contoh: Keluarga"></div>
+         <datalist id="editTagList">${TagEditor.allTags().map(t=>`<option value="${escapeHtml(t)}">`).join('')}</datalist>
+         <div class="row"><button class="btn btn-primary" onclick="ManageData.saveEdit('${id}')">Simpan</button><button class="btn btn-ghost" onclick="Modal.close()">Batal</button></div>`
+      : `<h3>Edit Instruksi</h3>
+         <div class="field"><label>Instruksi Korea</label><textarea id="editQ" class="kr" style="min-height:80px;">${escapeHtml(item.cmd)}</textarea></div>
+         <div class="field"><label>Terjemahan (opsional)</label><textarea id="editA" style="min-height:60px;">${escapeHtml(item.translation||'')}</textarea></div>
+         <div class="row"><button class="btn btn-primary" onclick="ManageData.saveEdit('${id}')">Simpan</button><button class="btn btn-ghost" onclick="Modal.close()">Batal</button></div>`;
+    Modal.open(html);
+  },
+  saveEdit(id){
+    const key = this.tab==='interview' ? 'interview_data':'movement_data';
+    const data = Store.get(key, []);
+    const item = data.find(x=>x.id===id);
+    if(!item) return;
+    const qv = document.getElementById('editQ').value.trim();
+    const av = document.getElementById('editA').value.trim();
+    if(this.tab==='interview'){
+      item.q=qv; item.a=av;
+      const tagEl = document.getElementById('editTag');
+      if(tagEl) item.tag = tagEl.value.trim();
+    } else { item.cmd=qv; item.translation=av; }
+    Store.set(key, data);
+    Modal.close();
+    this.renderList();
+  },
+  deleteItem(id){
+    const key = this.tab==='interview' ? 'interview_data':'movement_data';
+    let data = Store.get(key, []);
+    data = data.filter(x=>x.id!==id);
+    Store.set(key, data);
+    this.renderList();
+  }
+};
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ============================================================
+   BACKUP: EXPORT / IMPORT JSON
+   ============================================================ */
+const Backup = {
+  exportAll(){
+    const payload = {
+      exported_at: new Date().toISOString(),
+      interview_data: Store.get('interview_data', []),
+      movement_data: Store.get('movement_data', []),
+      session_history: Store.get('session_history', []),
+      voice_settings: Store.get('voice_settings', {}),
+      theme_mode: Store.get('theme_mode','light')
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `eps-topik-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  importFile(evt){
+    const file = evt.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      try{
+        const data = JSON.parse(reader.result);
+        Modal.open(`<h3>Import Backup</h3>
+          <p style="color:var(--muted); font-size:13.5px;">File berisi ${((data.interview_data||[]).length)} soal wawancara dan ${((data.movement_data||[]).length)} soal gerakan.</p>
+          <div class="row">
+            <button class="btn btn-primary" onclick='Backup.doImport(${JSON.stringify(JSON.stringify(data))}, "append")'>Gabung dengan Data Ada</button>
+            <button class="btn btn-danger" onclick='Backup.doImport(${JSON.stringify(JSON.stringify(data))}, "replace")'>Timpa Semua Data</button>
+          </div>`);
+      }catch(e){ alert('File tidak valid.'); }
+    };
+    reader.readAsText(file);
+    evt.target.value = '';
+  },
+  doImport(jsonStr, mode){
+    const data = JSON.parse(jsonStr);
+    if(mode==='replace'){
+      Store.set('interview_data', data.interview_data||[]);
+      Store.set('movement_data', data.movement_data||[]);
+      Store.set('session_history', data.session_history||[]);
+    }else{
+      Store.set('interview_data', Store.get('interview_data',[]).concat(data.interview_data||[]));
+      Store.set('movement_data', Store.get('movement_data',[]).concat(data.movement_data||[]));
+      Store.set('session_history', Store.get('session_history',[]).concat(data.session_history||[]));
+    }
+    if(data.voice_settings) Store.set('voice_settings', data.voice_settings);
+    Modal.close();
+    ManageData.renderList();
+    Home.render();
+    alert('Import selesai.');
+  }
+};
+
+/* ============================================================
+   SESSION HISTORY
+   ============================================================ */
+const History = {
+  add(entry){
+    const list = Store.get('session_history', []);
+    list.unshift(Object.assign({id:uid(), date:new Date().toISOString()}, entry));
+    Store.set('session_history', list.slice(0,50));
+  },
+  removeOne(id){
+    let list = Store.get('session_history', []);
+    list = list.filter(x=>x.id!==id);
+    Store.set('session_history', list);
+    Home.render();
+  },
+  clearAllConfirm(){
+    Modal.open(`<h3>Hapus Semua Riwayat?</h3>
+      <p style="color:var(--muted); font-size:13.5px;">Tindakan ini tidak bisa dibatalkan. Semua data statistik sesi akan dihapus.</p>
+      <div class="row"><button class="btn btn-danger" onclick="History.clearAll()">Ya, Hapus Semua</button><button class="btn btn-ghost" onclick="Modal.close()">Batal</button></div>`);
+  },
+  clearAll(){ Store.set('session_history', []); Modal.close(); Home.render(); }
+};
+
+/* ============================================================
+   HOME RENDER
+   ============================================================ */
+const MODES = [
+  {id:'tts', name:'TTS (Text to Speech)', icon:'🗣️', desc:'Ketik teks Korea bebas, dengarkan, dan simpan untuk diputar lagi.', view:'tts', dataFn:()=>({length:'∞'}), progressKey:null},
+  {id:'intro', name:'Perkenalan', icon:'🙋', desc:'Susun teks perkenalan diri bahasa Korea dari template siap pakai.', view:'intro', dataFn:()=>({length:'∞'}), progressKey:null},
+  {id:'interview', name:'Wawancara', icon:'💬', desc:'Latihan tanya-jawab wawancara EPS-TOPIK.', view:'mode1', dataFn:()=>Bank.getInterview(), progressKey:'progress_interview'},
+  {id:'movement', name:'Instruksi (Gerak)', icon:'🏃', desc:'Dengarkan instruksi, praktik gerakan fisik.', view:'mode2', dataFn:()=>Bank.getMovement(), progressKey:'progress_movement'},
+  {id:'math', name:'Matematika Dasar', icon:'🔢', desc:'Latihan hitung cepat dalam bahasa Korea.', view:'mode3', dataFn:()=>({length:'∞'}), progressKey:null},
+  {id:'exam', name:'Simulasi Ujian', icon:'🎓', desc:'Perkenalan diri + 10 wawancara + 10 gerakan + 10 matematika, waktu terbatas.', view:'exam', dataFn:()=>Bank.getInterview().concat(Bank.getMovement()), progressKey:null},
+  {id:'soon1', name:'Segera Hadir', icon:'✨', desc:'Mode baru akan muncul di sini.', soon:true},
+];
+
+const Home = {
+  render(){
+    this.renderModes();
+    this.renderHero();
+    this.renderHistory();
+    this.renderBankSummary();
+  },
+  renderModes(){
+    const grid = document.getElementById('modeGrid');
+    grid.innerHTML = MODES.map(m=>{
+      if(m.soon){
+        return `<div class="mode-card soon"><div class="icon">${m.icon}</div><h3>${m.name}</h3><div class="desc">${m.desc}</div></div>`;
+      }
+      const data = m.dataFn();
+      const total = Array.isArray(data) ? data.length : data.length;
+      const prog = m.progressKey ? Store.get(m.progressKey, null) : null;
+      const metaTags = [`<span class="tag">${total==='∞' ? 'Soal tak terbatas' : total+' soal'}</span>`];
+      if(prog && prog.lastIndex!=null && total>0) metaTags.push(`<span class="tag">Terakhir ${prog.lastIndex}/${prog.total}</span>`);
+      const disabled = (total===0 && total!=='∞');
+      return `<div class="mode-card">
+        <div class="icon">${m.icon}</div>
+        <h3>${m.name}</h3>
+        <div class="desc">${m.desc}</div>
+        <div class="meta">${metaTags.join('')}</div>
+        <button class="btn btn-primary go" ${disabled?'disabled':''} onclick="Nav.go('${m.view}'); Practice.setup('${m.id}')">${disabled? 'Impor soal dulu':'Mulai'}</button>
+      </div>`;
+    }).join('');
+  },
+  renderHero(){
+    const iv = Bank.getInterview();
+    const mv = Bank.getMovement();
+    const all = iv.concat(mv);
+    const mastered = all.filter(x=>x.mastery==='mastered').length;
+    const pct = all.length ? Math.round(mastered/all.length*100) : 0;
+    document.getElementById('heroStamp').innerHTML = `<div class="num">${pct}%</div><div class="lbl">Rata-rata dikuasai</div>`;
+  },
+  renderHistory(){
+    const list = Store.get('session_history', []);
+    const chart = document.getElementById('historyChart');
+    const recent = list.slice(0,8).reverse();
+    if(!recent.length){ chart.innerHTML = '<div class="empty" style="width:100%;">Belum ada sesi latihan.</div>'; }
+    else{
+      const max = Math.max(...recent.map(r=>r.percent||0), 1);
+      chart.innerHTML = recent.map(r=>{
+        const h = Math.max(6, Math.round((r.percent||0)/max*70));
+        return `<div class="bar" style="height:${h}px"><b>${r.percent!=null? r.percent+'%':''}</b></div>`;
+      }).join('');
+    }
+    const el = document.getElementById('historyList');
+    if(!list.length){ el.innerHTML = '<div class="empty">Riwayat sesi akan muncul di sini setelah kamu berlatih.</div>'; return; }
+    el.innerHTML = list.slice(0,8).map(r=>{
+      const d = new Date(r.date);
+      const dateStr = d.toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'});
+      return `<div class="hist-row">
+        <div class="hist-left"><div class="m">${escapeHtml(r.modeName||'Sesi')}</div><div class="d">${dateStr} · ${escapeHtml(r.summary||'')}</div></div>
+        <div class="row" style="gap:8px;">
+          <div class="hist-score">${r.percent!=null? r.percent+'%':'—'}</div>
+          <button class="icon-btn" style="width:30px;height:30px;font-size:13px;" title="Hapus" onclick="History.removeOne('${r.id}')">✕</button>
+        </div>
+      </div>`;
+    }).join('');
+  },
+  renderBankSummary(){
+    const iv = Bank.getInterview(), mv = Bank.getMovement();
+    const statusOf = item => item.mastery==='mastered' ? 'mastered' : (item.mastery==='practicing' ? 'practicing' : 'new');
+    const ivC = {new:0,practicing:0,mastered:0}; iv.forEach(x=> ivC[statusOf(x)]++);
+    const mvC = {new:0,practicing:0,mastered:0}; mv.forEach(x=> mvC[statusOf(x)]++);
+    document.getElementById('bankSummary').innerHTML = `
+      <div class="hist-row"><div class="hist-left"><div class="m">Interview</div><div class="d">${iv.length} soal · Baru ${ivC.new} · Latihan ${ivC.practicing} · Kuasai ${ivC.mastered}</div></div><button class="btn btn-sm" onclick="Nav.go('manage')">Kelola</button></div>
+      <div class="hist-row"><div class="hist-left"><div class="m">Instruksi</div><div class="d">${mv.length} soal · Baru ${mvC.new} · Latihan ${mvC.practicing} · Kuasai ${mvC.mastered}</div></div><button class="btn btn-sm" onclick="Nav.go('manage')">Kelola</button></div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn btn-block" onclick="Nav.go('manage')">+ Tambah / Edit Soal</button>
+      </div>
+      <div class="divider"></div>
+      <button class="btn btn-block btn-accent" onclick="VoiceSettings.open()">🔊 Pengaturan Suara</button>
+    `;
+  }
+};
+
+/* ============================================================
+   VOICE SETTINGS MODAL
+   ============================================================ */
+const VoiceSettings = {
+  async open(){
+    await Voice.loadVoices();
+    const kv = Voice.koreanVoices();
+    const s = Voice.settings();
+    let voiceOptions;
+    if(!kv.length){
+      voiceOptions = `<option value="">(tidak ada suara Korea ditemukan)</option>`;
+    }else{
+      voiceOptions = kv.map(v=>`<option value="${v.voiceURI}" ${v.voiceURI===s.voiceURI?'selected':''}>${v.name} (${v.lang})</option>`).join('');
+    }
+    const banner = !kv.length ? `<div class="banner warn">Suara Korea tidak ditemukan di perangkat ini — coba install paket bahasa Korea (ko-KR) di pengaturan HP/OS kamu, lalu buka ulang halaman ini.</div>` : '';
+    Modal.open(`
+      <h3>🔊 Pengaturan Suara</h3>
+      ${banner}
+      <div class="settings-in-modal">
+        <div class="field">
+          <label>Suara (ko-KR)</label>
+          <select id="vsVoice">${voiceOptions}</select>
+        </div>
+        <div class="slider-row"><label>Kecepatan</label><input type="range" id="vsRate" min="0.5" max="2" step="0.05" value="${s.rate}"><div class="slider-val" id="vsRateVal">${s.rate}x</div></div>
+        <div class="slider-row"><label>Nada</label><input type="range" id="vsPitch" min="0" max="2" step="0.05" value="${s.pitch}"><div class="slider-val" id="vsPitchVal">${s.pitch}</div></div>
+        <div class="slider-row"><label>Volume</label><input type="range" id="vsVolume" min="0" max="1" step="0.05" value="${s.volume}"><div class="slider-val" id="vsVolumeVal">${Math.round(s.volume*100)}%</div></div>
+        <button class="btn btn-block" onclick="VoiceSettings.test()">▶ Tes Suara</button>
+        <div class="divider"></div>
+        <label class="toggle" style="margin-bottom:14px;">
+          <div class="switch ${s.autoNext?'on':''}" id="vsAutoNext" onclick="this.classList.toggle('on')"></div>
+          <span>Auto-Next aktif</span>
+        </label>
+        <div class="slider-row"><label>Jeda Wawancara</label><input type="range" id="vsDelayI" min="3" max="30" step="1" value="${s.delayInterview}"><div class="slider-val" id="vsDelayIVal">${s.delayInterview}d</div></div>
+        <div class="slider-row"><label>Jeda Gerakan</label><input type="range" id="vsDelayM" min="3" max="30" step="1" value="${s.delayMovement}"><div class="slider-val" id="vsDelayMVal">${s.delayMovement}d</div></div>
+        <div class="slider-row"><label>Jeda Matematika</label><input type="range" id="vsDelayMath" min="3" max="30" step="1" value="${s.delayMath}"><div class="slider-val" id="vsDelayMathVal">${s.delayMath}d</div></div>
+        <div class="slider-row"><label>Waktu Simulasi</label><input type="range" id="vsDelayExam" min="3" max="30" step="1" value="${s.delayExam}"><div class="slider-val" id="vsDelayExamVal">${s.delayExam}d</div></div>
+        <div class="small-note">Berlaku global untuk semua mode. Tersimpan otomatis di perangkat ini.</div>
+        <div class="row" style="margin-top:16px;"><button class="btn btn-primary btn-block" onclick="VoiceSettings.save()">Simpan Pengaturan</button></div>
+      </div>
+    `);
+    ['vsRate','vsPitch','vsVolume','vsDelayI','vsDelayM','vsDelayMath','vsDelayExam'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', VoiceSettings.updateLabels);
+    });
+  },
+  updateLabels(){
+    document.getElementById('vsRateVal').textContent = document.getElementById('vsRate').value+'x';
+    document.getElementById('vsPitchVal').textContent = document.getElementById('vsPitch').value;
+    document.getElementById('vsVolumeVal').textContent = Math.round(document.getElementById('vsVolume').value*100)+'%';
+    document.getElementById('vsDelayIVal').textContent = document.getElementById('vsDelayI').value+'d';
+    document.getElementById('vsDelayMVal').textContent = document.getElementById('vsDelayM').value+'d';
+    document.getElementById('vsDelayMathVal').textContent = document.getElementById('vsDelayMath').value+'d';
+    document.getElementById('vsDelayExamVal').textContent = document.getElementById('vsDelayExam').value+'d';
+  },
+  test(){
+    const tmp = {
+      voiceURI: document.getElementById('vsVoice').value,
+      rate: parseFloat(document.getElementById('vsRate').value),
+      pitch: parseFloat(document.getElementById('vsPitch').value),
+      volume: parseFloat(document.getElementById('vsVolume').value)
+    };
+    const prev = Voice.settings();
+    Voice.save(Object.assign({}, prev, tmp));
+    Voice.speak('안녕하세요, 테스트입니다.');
+  },
+  save(){
+    const s = {
+      voiceURI: document.getElementById('vsVoice').value,
+      rate: parseFloat(document.getElementById('vsRate').value),
+      pitch: parseFloat(document.getElementById('vsPitch').value),
+      volume: parseFloat(document.getElementById('vsVolume').value),
+      autoNext: document.getElementById('vsAutoNext').classList.contains('on'),
+      delayInterview: parseInt(document.getElementById('vsDelayI').value),
+      delayMovement: parseInt(document.getElementById('vsDelayM').value),
+      delayMath: parseInt(document.getElementById('vsDelayMath').value),
+      delayExam: parseInt(document.getElementById('vsDelayExam').value)
+    };
+    Voice.save(s);
+    Modal.close();
+  }
+};
+
+/* ============================================================
+   PRACTICE ENGINE (shared auto-play / auto-next module)
+   ============================================================ */
+const Practice = {
+  state:{},
+  timers:[],
+  clearTimers(){ this.timers.forEach(t=>clearTimeout(t)); this.timers.forEach(t=>clearInterval(t)); this.timers=[]; },
+  exitConfirm(mode){
+    this.clearTimers(); Voice.stop();
+    Nav.go('home');
+  },
+  setup(modeId){
+    this.clearTimers(); Voice.stop();
+    if(modeId==='interview') InterviewMode.setup();
+    else if(modeId==='movement') MovementMode.setup();
+    else if(modeId==='math') MathMode.setup();
+    else if(modeId==='exam') ExamMode.setup();
+    else if(modeId==='tts') TTSMode.setup();
+    else if(modeId==='intro') IntroMode.setup();
+  }
+};
+
+function weightedShuffle(arr){
+  // items with mastery 'practicing' get higher chance to appear earlier/more
+  const withWeight = arr.map(item=>({item, weight: item.mastery==='practicing'?3:(item.mastery==='new'?2:1), r:Math.random()}));
+  withWeight.forEach(w=> w.sortKey = w.r / w.weight); // lower sortKey = appears earlier more often for higher weight
+  withWeight.sort((a,b)=>a.sortKey-b.sortKey);
+  return withWeight.map(w=>w.item);
+}
+function plainShuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+/* ============================================================
+   MANUAL ORDER BUILDER (pilih urutan soal sendiri, bisa diulang & disimpan)
+   ============================================================ */
+const ManualOrder = {
+  current: null, // {mode, items:[ids...], timerSec}
+  openSavedList(mode, timerSec){
+    const sets = Store.get('custom_order_'+mode, []);
+    const label = mode==='interview' ? 'Wawancara' : 'Instruksi Gerakan';
+    let html = `<h3>Urutan Manual — ${label}</h3><div class="sub">Pakai set tersimpan, atau buat urutan baru.</div>`;
+    if(!sets.length){
+      html += `<div class="empty" style="margin-top:10px;">Belum ada set tersimpan.</div>`;
+    }else{
+      html += `<div style="margin-top:10px;">` + sets.map(s=>`
+        <div class="hist-row">
+          <div class="hist-left"><div class="m">${escapeHtml(s.name)}</div><div class="d">${s.items.length} soal dalam urutan</div></div>
+          <div class="row" style="gap:6px;">
+            <button class="btn btn-sm btn-primary" onclick="ManualOrder.useSaved('${mode}','${s.id}',${timerSec||7})">▶ Pakai</button>
+            <button class="btn btn-sm btn-danger" onclick="ManualOrder.deleteSaved('${mode}','${s.id}',${timerSec||7})">Hapus</button>
+          </div>
+        </div>`).join('') + `</div>`;
+    }
+    html += `<div class="row" style="margin-top:16px;"><button class="btn btn-primary btn-block" onclick="ManualOrder.openBuilder('${mode}',${timerSec||7})">+ Susun Urutan Baru</button></div>
+      <div class="row" style="margin-top:8px;"><button class="btn btn-ghost btn-block" onclick="Modal.close()">Batal</button></div>`;
+    Modal.open(html);
+  },
+  openBuilder(mode, timerSec){
+    this.current = {mode, items: (this.current && this.current.mode===mode) ? this.current.items : [], timerSec, name:''};
+    this.renderModal();
+  },
+  renderModal(){
+    const c = this.current;
+    const bank = c.mode==='interview' ? Bank.getInterview() : Bank.getMovement();
+    const countMap = {};
+    c.items.forEach(id=> countMap[id] = (countMap[id]||0)+1);
+    const nameVal = document.getElementById('manualSetName') ? document.getElementById('manualSetName').value : c.name;
+    const bankHtml = bank.length ? bank.map(item=>{
+      const label = c.mode==='interview' ? item.q : item.cmd;
+      const n = countMap[item.id]||0;
+      return `<div class="qrow" style="padding:12px 14px; margin-bottom:8px; align-items:center; gap:10px;">
+        <div class="qtext"><div class="q kr" style="font-size:14px; font-weight:600;">${escapeHtml(label)}</div>${n? `<span class="tag" style="margin-top:6px;display:inline-block;">${n}× dipilih</span>`:''}</div>
+        <div class="qactions"><button class="btn btn-sm btn-primary" onclick="ManualOrder.addItem('${item.id}')">+ Tambah</button></div>
+      </div>`;
+    }).join('') : '<div class="empty">Bank soal masih kosong.</div>';
+    const seqHtml = c.items.length ? c.items.map((id,idx)=>{
+      const item = bank.find(x=>x.id===id);
+      const label = item ? (c.mode==='interview'? item.q : item.cmd) : '(soal telah dihapus dari bank)';
+      return `<div class="hist-row" style="padding:8px 0;">
+        <div class="hist-left"><div class="d">#${idx+1} · ${escapeHtml(String(label).slice(0,44))}${label.length>44?'…':''}</div></div>
+        <button class="icon-btn" style="width:28px;height:28px;font-size:12px;" title="Hapus dari urutan" onclick="ManualOrder.removeAt(${idx})">✕</button>
+      </div>`;
+    }).join('') : '<div class="empty">Belum ada soal dipilih. Klik "+ Tambah" di daftar kiri — klik soal yang sama beberapa kali untuk mengulang.</div>';
+    Modal.open(`
+      <h3>Susun Urutan Manual — ${c.mode==='interview'?'Wawancara':'Instruksi Gerakan'}</h3>
+      <div class="sub">Klik "+ Tambah" untuk memasukkan soal ke urutan latihan. Boleh klik soal yang sama berkali-kali agar muncul berulang.</div>
+      <div class="manual-builder-grid">
+        <div style="overflow:auto; max-height:340px; padding-right:4px;">
+          <div class="small-note" style="margin-bottom:8px;">DAFTAR SOAL (${bank.length})</div>
+          ${bankHtml}
+        </div>
+        <div style="overflow:auto; max-height:340px; padding-right:4px;">
+          <div class="small-note" style="margin-bottom:8px;">URUTAN TERPILIH (${c.items.length})</div>
+          ${seqHtml}
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field"><label>Nama Set (opsional, untuk disimpan &amp; dipakai lagi)</label><input type="text" id="manualSetName" placeholder="contoh: Set Latihan Sulit" value="${escapeHtml(nameVal||'')}"></div>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="ManualOrder.clearAll()">Kosongkan</button>
+        <div style="flex:1"></div>
+        <button class="btn" ${c.items.length?'':'disabled'} onclick="ManualOrder.saveOnly()">💾 Simpan Set</button>
+        <button class="btn btn-primary" ${c.items.length?'':'disabled'} onclick="ManualOrder.startWithCurrent()">▶ Mulai Latihan</button>
+      </div>`);
+  },
+  addItem(id){
+    this.current.name = document.getElementById('manualSetName') ? document.getElementById('manualSetName').value : this.current.name;
+    this.current.items.push(id);
+    this.renderModal();
+  },
+  removeAt(idx){
+    this.current.name = document.getElementById('manualSetName') ? document.getElementById('manualSetName').value : this.current.name;
+    this.current.items.splice(idx,1);
+    this.renderModal();
+  },
+  clearAll(){ this.current.items = []; this.renderModal(); },
+  saveOnly(){
+    const c = this.current;
+    if(!c.items.length){ return; }
+    const name = (document.getElementById('manualSetName').value||'').trim() || ('Set ' + new Date().toLocaleDateString('id-ID'));
+    const key = 'custom_order_'+c.mode;
+    const sets = Store.get(key, []);
+    sets.push({id:uid(), name, items:c.items.slice()});
+    Store.set(key, sets);
+    this.openSavedList(c.mode, c.timerSec);
+  },
+  useSaved(mode, id, timerSec){
+    const sets = Store.get('custom_order_'+mode, []);
+    const s = sets.find(x=>x.id===id);
+    if(!s) return;
+    this.startList(mode, s.items.slice(), timerSec);
+  },
+  deleteSaved(mode, id, timerSec){
+    let sets = Store.get('custom_order_'+mode, []);
+    sets = sets.filter(x=>x.id!==id);
+    Store.set('custom_order_'+mode, sets);
+    this.openSavedList(mode, timerSec);
+  },
+  startWithCurrent(){
+    const c = this.current;
+    this.startList(c.mode, c.items.slice(), c.timerSec);
+  },
+  startList(mode, ids, timerSec){
+    Modal.close();
+    const bank = mode==='interview' ? Bank.getInterview() : Bank.getMovement();
+    const list = ids.map(id=> bank.find(x=>x.id===id)).filter(Boolean);
+    if(!list.length){ return; }
+    if(mode==='interview'){
+      Practice.state = {list, index:0, mastered:0, practicing:0, revealed:false};
+      document.getElementById('mode1-setup').style.display='none';
+      document.getElementById('mode1-play').style.display='block';
+      InterviewMode.renderQuestion();
+    }else{
+      Practice.state = {list, index:0, timerSec: timerSec||7};
+      document.getElementById('mode2-setup').style.display='none';
+      document.getElementById('mode2-play').style.display='block';
+      MovementMode.renderQuestion();
+    }
+  }
+};
+
+/* ---------- MODE 1: INTERVIEW ---------- */
+const InterviewMode = {
+  statusOf(item){ return item.mastery==='mastered' ? 'mastered' : (item.mastery==='practicing' ? 'practicing' : 'new'); },
+  setup(){
+    const data = Bank.getInterview();
+    const counts = {all:data.length, new:0, practicing:0, mastered:0};
+    data.forEach(item=> counts[this.statusOf(item)]++);
+    const tagCounts = {};
+    data.forEach(item=>{ const t = item.tag||'__none__'; tagCounts[t] = (tagCounts[t]||0)+1; });
+    const tagKeys = Object.keys(tagCounts).filter(t=>t!=='__none__').sort();
+    document.getElementById('mode1-play').style.display='none';
+    document.getElementById('mode1-summary').style.display='none';
+    const setupEl = document.getElementById('mode1-setup');
+    setupEl.style.display='block';
+    setupEl.innerHTML = `
+      <span class="eyebrow" style="display:block;">Mode 1</span>
+      <h1 class="display">Latihan Wawancara</h1>
+      <p style="color:var(--muted);">${data.length} soal tersedia di bank data.</p>
+      <div class="panel" style="max-width:480px;">
+        <div class="field"><label>Kelompok Soal</label>
+          <select id="ivStatus">
+            <option value="all">Semua (${counts.all})</option>
+            <option value="new">Hanya Baru (${counts.new})</option>
+            <option value="practicing">Hanya Masih Latihan (${counts.practicing})</option>
+            <option value="mastered">Hanya Sudah Kuasai (${counts.mastered})</option>
+          </select>
+        </div>
+        <div class="field"><label>Tag / Kategori</label>
+          <select id="ivTag">
+            <option value="all">Semua Tag (${data.length})</option>
+            ${tagKeys.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)} (${tagCounts[t]})</option>`).join('')}
+            ${tagCounts['__none__']? `<option value="__none__">Tanpa Tag (${tagCounts['__none__']})</option>`:''}
+          </select>
+        </div>
+        <div class="field"><label>Urutan Soal</label>
+          <select id="ivOrder"><option value="ordered">Sesuai urutan input</option><option value="random">Acak</option><option value="weighted">Acak · prioritas "Masih Latihan"</option><option value="manual">🎛 Pilih Urutan Manual</option></select>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="InterviewMode.start()">Mulai Latihan</button>
+      </div>`;
+  },
+  start(){
+    const order = document.getElementById('ivOrder').value;
+    const statusFilter = document.getElementById('ivStatus').value;
+    const tagFilter = document.getElementById('ivTag').value;
+    if(order==='manual'){ ManualOrder.openSavedList('interview'); return; }
+    let data = Bank.getInterview();
+    if(statusFilter!=='all') data = data.filter(item=>this.statusOf(item)===statusFilter);
+    if(tagFilter!=='all') data = data.filter(item=> (item.tag||'__none__')===tagFilter);
+    if(order==='random') data = plainShuffle(data);
+    else if(order==='weighted') data = weightedShuffle(data);
+    if(!data.length){ return; }
+    Practice.state = {list:data, index:0, mastered:0, practicing:0, revealed:false};
+    document.getElementById('mode1-setup').style.display='none';
+    document.getElementById('mode1-play').style.display='block';
+    this.renderQuestion();
+  },
+  renderQuestion(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const item = st.list[st.index];
+    st.revealed = false;
+    Store.set('progress_interview', {lastIndex: st.index+1, total: st.list.length});
+    const pct = Math.round((st.index)/st.list.length*100);
+    document.getElementById('mode1-play').innerHTML = `
+      <div class="practice-shell">
+        <div class="practice-main">
+          <div class="practice-top">
+            <div class="progress-pill">Soal ${st.index+1}/${st.list.length}<div class="progress-bar"><div style="width:${pct}%"></div></div></div>
+            <span id="ivStatusBadge">${this.statusBadgeHtml(item)}</span>
+            <span id="ivTagBadge">${TagEditor.chipHtml(item.tag)}</span>
+            <button class="icon-btn" onclick="Voice.speak('${escJs(item.q)}')" title="Dengar lagi">🔊</button>
+          </div>
+          <div class="q-stage">
+            <div class="qmain kr">${escapeHtml(item.q)}</div>
+            <div id="ivAnswerBox"></div>
+          </div>
+          <div class="practice-actions" id="ivActions">
+            <button class="btn btn-accent" onclick="InterviewMode.reveal()">Lihat Jawaban</button>
+            <button class="btn" onclick="InterviewMode.prev()" ${st.index===0?'disabled':''}>← Sebelumnya</button>
+            <button class="btn" onclick="InterviewMode.next()">Berikutnya →</button>
+          </div>
+        </div>
+        <div class="side-panel">
+          <div class="panel">
+            <h3 style="font-size:15px;">Penandaan</h3>
+            <div class="sub">Tandai untuk pengulangan terarah.</div>
+            <div class="mastery-row">
+              <button class="btn btn-success" onclick="InterviewMode.mark('mastered')">✓ Sudah Kuasai</button>
+              <button class="btn btn-danger" onclick="InterviewMode.mark('practicing')">↻ Masih Latihan</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 style="font-size:15px;">Tag / Kategori</h3>
+            <div class="sub">Kelompokkan soal ini sesuka kamu.</div>
+            <div id="ivTagDisplay" style="margin-bottom:10px;">${TagEditor.chipHtml(item.tag)}</div>
+            <button class="btn btn-sm btn-block" onclick="InterviewMode.editTag()">✏️ Ubah Tag</button>
+          </div>
+          <div class="panel">
+            <div class="sound-mini">🔊 Audio otomatis diputar saat soal muncul.</div>
+          </div>
+        </div>
+      </div>`;
+    Voice.speak(item.q);
+  },
+  statusBadgeHtml(item){
+    const s = this.statusOf(item);
+    return s==='mastered' ? '<span class="badge-mastery badge-mastered">Kuasai</span>'
+      : s==='practicing' ? '<span class="badge-mastery badge-practicing">Latihan</span>'
+      : '<span class="badge-mastery badge-new">Baru</span>';
+  },
+  reveal(){
+    const st = Practice.state;
+    const item = st.list[st.index];
+    st.revealed = true;
+    document.getElementById('ivAnswerBox').innerHTML = `<div class="answer-box kr">${escapeHtml(item.a)}</div>`;
+    document.getElementById('ivActions').querySelector('button').outerHTML = `<span class="tag" style="padding:8px 14px;">Jawaban ditampilkan</span>`;
+    Voice.speak(item.a);
+    const s = Voice.settings();
+    if(s.autoNext){
+      let remain = s.delayInterview;
+      const label = document.createElement('div');
+      const t = setInterval(()=>{
+        remain--;
+        if(remain<=0){ clearInterval(t); InterviewMode.next(); }
+      },1000);
+      Practice.timers.push(t);
+    }
+  },
+  mark(type){
+    const st = Practice.state;
+    const item = st.list[st.index];
+    item.mastery = type;
+    let all = Bank.getInterview();
+    const found = all.find(x=>x.id===item.id);
+    if(found) found.mastery = type;
+    Bank.setInterview(all);
+    if(type==='mastered') st.mastered++;
+    else st.practicing++;
+    const badgeEl = document.getElementById('ivStatusBadge');
+    if(badgeEl) badgeEl.innerHTML = this.statusBadgeHtml(item);
+  },
+  editTag(){
+    const st = Practice.state;
+    const item = st.list[st.index];
+    TagEditor.open(item.id, (newTag)=>{
+      item.tag = newTag;
+      const disp = document.getElementById('ivTagDisplay');
+      if(disp) disp.innerHTML = TagEditor.chipHtml(newTag);
+      const badge = document.getElementById('ivTagBadge');
+      if(badge) badge.innerHTML = TagEditor.chipHtml(newTag);
+    });
+  },
+  next(){
+    const st = Practice.state;
+    if(st.index < st.list.length-1){ st.index++; this.renderQuestion(); }
+    else{ this.finish(); }
+  },
+  prev(){
+    const st = Practice.state;
+    if(st.index>0){ st.index--; this.renderQuestion(); }
+  },
+  finish(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const total = st.list.length;
+    const pct = total? Math.round((st.mastered/total)*100):0;
+    History.add({modeName:'Wawancara', summary:`${st.mastered} kuasai, ${st.practicing} latihan dari ${total}`, percent:pct});
+    document.getElementById('mode1-play').style.display='none';
+    document.getElementById('mode1-summary').style.display='block';
+    document.getElementById('mode1-summary').innerHTML = `
+      <div class="summary-wrap">
+        <div class="summary-seal kr">합격</div>
+        <h1 class="display">Sesi Selesai</h1>
+        <p style="color:var(--muted);">Kerja bagus! Begini hasil latihanmu.</p>
+        <div class="summary-stats">
+          <div class="stat-box"><div class="n">${st.mastered}</div><div class="l">Sudah Kuasai</div></div>
+          <div class="stat-box"><div class="n">${st.practicing}</div><div class="l">Masih Latihan</div></div>
+          <div class="stat-box"><div class="n">${total}</div><div class="l">Total Soal</div></div>
+        </div>
+        <div class="row" style="justify-content:center;">
+          <button class="btn btn-primary" onclick="Nav.go('mode1'); Practice.setup('interview')">Latihan Lagi</button>
+          <button class="btn" onclick="Nav.go('home')">Kembali ke Beranda</button>
+        </div>
+      </div>`;
+  }
+};
+function escJs(s){ return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' '); }
+
+/* ---------- MODE 2: MOVEMENT ---------- */
+const MovementMode = {
+  setup(){
+    const data = Bank.getMovement();
+    document.getElementById('mode2-play').style.display='none';
+    document.getElementById('mode2-summary').style.display='none';
+    const setupEl = document.getElementById('mode2-setup');
+    setupEl.style.display='block';
+    setupEl.innerHTML = `
+      <span class="eyebrow" style="display:block;">Mode 2</span>
+      <h1 class="display">Tes Gerakan</h1>
+      <p style="color:var(--muted);">${data.length} instruksi tersedia.</p>
+      <div class="panel" style="max-width:480px;">
+        <div class="field"><label>Urutan Soal</label>
+          <select id="mvOrder"><option value="random">Acak seperti ujian asli</option><option value="ordered">Sesuai urutan input</option><option value="manual">🎛 Pilih Urutan Manual</option></select>
+        </div>
+        <div class="field"><label>Timer per soal (detik)</label>
+          <select id="mvTimer"><option value="5">5 detik</option><option value="7">7 detik</option><option value="10">10 detik</option></select>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="MovementMode.start()">Mulai Tes</button>
+      </div>`;
+  },
+  start(){
+    const order = document.getElementById('mvOrder').value;
+    if(order==='manual'){ ManualOrder.openSavedList('movement', parseInt(document.getElementById('mvTimer').value)); return; }
+    let data = order==='ordered' ? Bank.getMovement() : plainShuffle(Bank.getMovement());
+    if(!data.length) return;
+    Practice.state = {list:data, index:0, timerSec: parseInt(document.getElementById('mvTimer').value)};
+    document.getElementById('mode2-setup').style.display='none';
+    document.getElementById('mode2-play').style.display='block';
+    this.renderQuestion();
+  },
+  renderQuestion(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const item = st.list[st.index];
+    Store.set('progress_movement', {lastIndex: st.index+1, total: st.list.length});
+    const pct = Math.round((st.index)/st.list.length*100);
+    document.getElementById('mode2-play').innerHTML = `
+      <div class="practice-shell">
+        <div class="practice-main">
+          <div class="practice-top">
+            <div class="progress-pill">Instruksi ${st.index+1}/${st.list.length}<div class="progress-bar"><div style="width:${pct}%"></div></div></div>
+            <div class="timer-ring" id="mvTimerRing">${st.timerSec}</div>
+          </div>
+          <div class="q-stage">
+            <div class="qmain kr">${escapeHtml(item.cmd)}</div>
+            ${item.translation? `<div class="translation">${escapeHtml(item.translation)}</div>`:''}
+          </div>
+          <div class="practice-actions">
+            <button class="icon-btn" onclick="Voice.speak('${escJs(item.cmd)}')" title="Dengar lagi">🔊</button>
+            <button class="btn" onclick="MovementMode.next()">Lanjut →</button>
+          </div>
+        </div>
+        <div class="side-panel">
+          <div class="panel"><div class="sound-mini">🏃 Praktikkan gerakan sebelum waktu habis.</div></div>
+        </div>
+      </div>`;
+    Voice.speak(item.cmd);
+    let remain = st.timerSec;
+    const ring = document.getElementById('mvTimerRing');
+    const t = setInterval(()=>{
+      remain--;
+      if(ring) ring.textContent = Math.max(remain,0);
+      if(remain<=0){ clearInterval(t); MovementMode.next(); }
+    },1000);
+    Practice.timers.push(t);
+  },
+  next(){
+    const st = Practice.state;
+    if(st.index < st.list.length-1){ st.index++; this.renderQuestion(); }
+    else{ this.finish(); }
+  },
+  finish(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    History.add({modeName:'Tes Gerakan', summary:`${st.list.length} instruksi dilatih`, percent:null});
+    document.getElementById('mode2-play').style.display='none';
+    document.getElementById('mode2-summary').style.display='block';
+    document.getElementById('mode2-summary').innerHTML = `
+      <div class="summary-wrap">
+        <div class="summary-seal kr">완료</div>
+        <h1 class="display">Sesi Selesai</h1>
+        <div class="summary-stats"><div class="stat-box"><div class="n">${st.list.length}</div><div class="l">Instruksi Dilatih</div></div></div>
+        <div class="row" style="justify-content:center;">
+          <button class="btn btn-primary" onclick="Nav.go('mode2'); Practice.setup('movement')">Latihan Lagi</button>
+          <button class="btn" onclick="Nav.go('home')">Kembali ke Beranda</button>
+        </div>
+      </div>`;
+  }
+};
+
+/* ---------- MODE 3: MATH ---------- */
+const MathMode = {
+  ops:['+','-','×','÷'],
+  difficulties:{
+    easy:{label:'Mudah (1–10)', max:10},
+    medium:{label:'Sedang (1–50)', max:50},
+    hard:{label:'Sulit (1–100)', max:100}
+  },
+  genQuestion(max){
+    max = max||100;
+    const op = this.ops[Math.floor(Math.random()*4)];
+    let a,b,result;
+    if(op==='+'){ a=1+Math.floor(Math.random()*max); b=1+Math.floor(Math.random()*(max+1-a)); if(a+b>max){b=max-a;} result=a+b; }
+    else if(op==='-'){ a=1+Math.floor(Math.random()*max); b=1+Math.floor(Math.random()*a); result=a-b; }
+    else if(op==='×'){
+      const factorMax = max<=10 ? 5 : (max<=50 ? 9 : 12);
+      const otherMax = max<=10 ? 3 : (max<=50 ? 8 : 10);
+      a=1+Math.floor(Math.random()*factorMax); b=1+Math.floor(Math.random()*otherMax); result=a*b;
+    }
+    else{
+      const factorMax = max<=10 ? 3 : (max<=50 ? 8 : 10);
+      const otherMax = max<=10 ? 5 : (max<=50 ? 9 : 12);
+      b=1+Math.floor(Math.random()*factorMax); result=1+Math.floor(Math.random()*otherMax); a=b*result;
+    }
+    return {a,b,op,result};
+  },
+  opWord(op){ return {'+':'더하기','-':'빼기','×':'곱하기','÷':'나누기'}[op]; },
+  setup(){
+    document.getElementById('mode3-play').style.display='none';
+    document.getElementById('mode3-summary').style.display='none';
+    const setupEl = document.getElementById('mode3-setup');
+    setupEl.style.display='block';
+    const diffOptions = Object.keys(this.difficulties).map(k=>`<option value="${k}" ${k==='hard'?'selected':''}>${this.difficulties[k].label}</option>`).join('');
+    setupEl.innerHTML = `
+      <span class="eyebrow" style="display:block;">Mode 3</span>
+      <h1 class="display">Matematika Dasar</h1>
+      <p style="color:var(--muted);">Soal digenerate otomatis dalam bahasa Korea.</p>
+      <div class="panel" style="max-width:480px;">
+        <div class="field"><label>Jumlah Soal</label>
+          <select id="mathCount"><option value="5">5 soal</option><option value="10">10 soal</option><option value="15">15 soal</option><option value="20" selected>20 soal</option><option value="30">30 soal</option></select>
+        </div>
+        <div class="field"><label>Tingkat Kesulitan</label>
+          <select id="mathDiff">${diffOptions}</select>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="MathMode.start()">Mulai Latihan</button>
+      </div>`;
+  },
+  start(){
+    const count = parseInt(document.getElementById('mathCount').value);
+    const diffKey = document.getElementById('mathDiff').value;
+    const max = this.difficulties[diffKey].max;
+    const list = Array.from({length:count}, ()=>this.genQuestion(max));
+    Practice.state = {list, index:0, phase:'question'};
+    document.getElementById('mode3-setup').style.display='none';
+    document.getElementById('mode3-play').style.display='block';
+    this.renderQuestion();
+  },
+  renderQuestion(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const q = st.list[st.index];
+    const pct = Math.round((st.index)/st.list.length*100);
+    document.getElementById('mode3-play').innerHTML = `
+      <div class="practice-shell">
+        <div class="practice-main">
+          <div class="practice-top">
+            <div class="progress-pill">Soal ${st.index+1}/${st.list.length}<div class="progress-bar"><div style="width:${pct}%"></div></div></div>
+          </div>
+          <div class="q-stage">
+            <div class="math-eq">${q.a} ${q.op} ${q.b}</div>
+            <div id="mathAnswerBox"></div>
+          </div>
+          <div class="practice-actions">
+            <button class="icon-btn" onclick="MathMode.speakQuestion()" title="Dengar lagi">🔊</button>
+            <button class="btn" id="mathAdvanceBtn" onclick="MathMode.skipToAnswer()">Lanjut →</button>
+          </div>
+        </div>
+        <div class="side-panel">
+          <div class="panel"><div class="sound-mini">🔢 Jawab dalam hati, lalu dengarkan jawabannya.</div></div>
+        </div>
+      </div>`;
+    this.speakQuestion();
+    const s = Voice.settings();
+    const t = setTimeout(()=>this.showAnswer(), s.delayMath*1000);
+    Practice.timers.push(t);
+  },
+  speakQuestion(){
+    const st = Practice.state;
+    const q = st.list[st.index];
+    const particle = SinoKorean.particle(q.b);
+    const text = `${SinoKorean.toText(q.a)} ${this.opWord(q.op)} ${SinoKorean.toText(q.b)}${particle}?`;
+    Voice.speak(text);
+  },
+  skipToAnswer(){ Practice.clearTimers(); this.showAnswer(); },
+  showAnswer(){
+    Practice.clearTimers();
+    const st = Practice.state;
+    const q = st.list[st.index];
+    const box = document.getElementById('mathAnswerBox');
+    if(box) box.innerHTML = `<div class="answer-box">${q.result}</div>`;
+    const btn = document.getElementById('mathAdvanceBtn');
+    if(btn){ btn.textContent = 'Soal Berikutnya →'; btn.onclick = ()=>MathMode.next(); }
+    const s = Voice.settings();
+    Voice.speak(`${SinoKorean.toText(q.result)}입니다`, ()=>{
+      if(s.autoNext){
+        const t = setTimeout(()=>MathMode.next(), (s.delayMath||3)*1000);
+        Practice.timers.push(t);
+      }
+    });
+  },
+  next(){
+    const st = Practice.state;
+    if(st.index < st.list.length-1){ st.index++; this.renderQuestion(); }
+    else{ this.finish(); }
+  },
+  finish(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    History.add({modeName:'Matematika', summary:`${st.list.length} soal dilatih`, percent:null});
+    document.getElementById('mode3-play').style.display='none';
+    document.getElementById('mode3-summary').style.display='block';
+    document.getElementById('mode3-summary').innerHTML = `
+      <div class="summary-wrap">
+        <div class="summary-seal kr">완료</div>
+        <h1 class="display">Sesi Selesai</h1>
+        <div class="summary-stats"><div class="stat-box"><div class="n">${st.list.length}</div><div class="l">Soal Dilatih</div></div></div>
+        <div class="row" style="justify-content:center;">
+          <button class="btn btn-primary" onclick="Nav.go('mode3'); Practice.setup('math')">Latihan Lagi</button>
+          <button class="btn" onclick="Nav.go('home')">Kembali ke Beranda</button>
+        </div>
+      </div>`;
+  }
+};
+
+/* ---------- EXAM SIMULATION ---------- */
+const ExamMode = {
+  setup(){
+    const ivPool = Bank.getInterview();
+    const mvPool = Bank.getMovement();
+    const profile = Store.get('intro_profile', null);
+    document.getElementById('exam-play').style.display='none';
+    document.getElementById('exam-summary').style.display='none';
+    const setupEl = document.getElementById('exam-setup');
+    setupEl.style.display='block';
+    const enough = ivPool.length>=3 && mvPool.length>=3;
+    setupEl.innerHTML = `
+      <span class="eyebrow" style="display:block;">Simulasi Ujian</span>
+      <h1 class="display">Simulasi Ujian</h1>
+      <p style="color:var(--muted); max-width:560px;">Latihan gabungan lengkap: perkenalan diri, 10 soal wawancara acak, 10 soal instruksi gerakan acak, dan 10 soal matematika acak (3 mudah, 4 sedang, 3 sulit) — waktu terbatas per soal.</p>
+      <div class="panel" style="max-width:520px;">
+        <div class="banner ${profile? 'ok':'info'}">${profile ? 'Data Perkenalan tersimpan siap dipakai sebagai pembuka simulasi.' : 'Kamu belum mengisi mode Perkenalan — simulasi akan langsung mulai dari soal wawancara tanpa perkenalan.'}</div>
+        <div class="row" style="margin-bottom:14px;">
+          <button class="btn btn-sm" onclick="Nav.go('intro'); Practice.setup('intro')">${profile? 'Ubah Data Perkenalan':'Isi Data Perkenalan'}</button>
+        </div>
+        <div class="sub">Bank tersedia: ${ivPool.length} soal wawancara, ${mvPool.length} instruksi gerakan.</div>
+        <button class="btn btn-primary btn-block" style="margin-top:14px;" ${enough?'':'disabled'} onclick="ExamMode.start()">${enough? 'Mulai Simulasi':'Butuh minimal 3 soal wawancara & gerakan'}</button>
+      </div>`;
+  },
+  start(){
+    const profile = Store.get('intro_profile', null);
+    const introText = profile ? IntroMode.buildFromProfile(profile) : null;
+    const ivList = plainShuffle(Bank.getInterview()).slice(0,10).map(x=>({...x, kind:'interview'}));
+    const mvList = plainShuffle(Bank.getMovement()).slice(0,10).map(x=>({...x, kind:'movement'}));
+    const mathList = plainShuffle([
+      ...Array.from({length:3}, ()=>({...MathMode.genQuestion(10), kind:'math'})),
+      ...Array.from({length:4}, ()=>({...MathMode.genQuestion(50), kind:'math'})),
+      ...Array.from({length:3}, ()=>({...MathMode.genQuestion(100), kind:'math'}))
+    ]);
+    const list = [];
+    if(introText) list.push({kind:'intro', text:introText});
+    list.push(...ivList, ...mvList, ...mathList);
+    Practice.state = {list, index:0, answeredInTime:0, missed:0, attempted:false};
+    document.getElementById('exam-setup').style.display='none';
+    document.getElementById('exam-play').style.display='block';
+    this.renderQuestion();
+  },
+  renderQuestion(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const item = st.list[st.index];
+    st.attempted = false;
+    const pct = Math.round((st.index)/st.list.length*100);
+
+    if(item.kind==='intro'){
+      document.getElementById('exam-play').innerHTML = `
+        <div class="practice-shell">
+          <div class="practice-main">
+            <div class="practice-top">
+              <div class="progress-pill">Langkah ${st.index+1}/${st.list.length} · Perkenalan<div class="progress-bar"><div style="width:${pct}%"></div></div></div>
+            </div>
+            <div class="q-stage">
+              <div class="intro-preview kr" style="text-align:left;">${escapeHtml(item.text)}</div>
+            </div>
+            <div class="practice-actions">
+              <button class="btn btn-accent" onclick="Voice.speak('${escJs(item.text.replace(/\n/g,' '))}')">🔊 Dengarkan Lagi</button>
+              <button class="btn btn-primary" onclick="ExamMode.next()">Lanjut ke Soal →</button>
+            </div>
+          </div>
+          <div class="side-panel"><div class="panel"><div class="sound-mini">🙋 Bacakan perkenalan dirimu sebelum soal dimulai.</div></div></div>
+        </div>`;
+      Voice.speak(item.text.replace(/\n/g,' '));
+      return;
+    }
+
+    const s = Voice.settings();
+    const total = s.delayExam;
+    const kindLabel = item.kind==='interview' ? 'Wawancara' : item.kind==='movement' ? 'Gerakan' : 'Matematika';
+    const qText = item.kind==='math' ? `${item.a} ${item.op} ${item.b}` : (item.kind==='interview' ? item.q : item.cmd);
+    document.getElementById('exam-play').innerHTML = `
+      <div class="practice-shell">
+        <div class="practice-main">
+          <div class="practice-top">
+            <div class="progress-pill">Soal ${st.index+1}/${st.list.length} · ${kindLabel}<div class="progress-bar"><div style="width:${pct}%"></div></div></div>
+            <div class="timer-ring" id="examTimerRing">${total}</div>
+          </div>
+          <div class="q-stage">
+            <div class="${item.kind==='math'?'math-eq':'qmain kr'}">${item.kind==='math'? qText : escapeHtml(qText)}</div>
+            <div id="examAnswerBox"></div>
+          </div>
+          <div class="practice-actions">
+            <button class="btn btn-accent" onclick="ExamMode.markAttempted()" id="examAttemptBtn">Saya Sudah Coba Jawab</button>
+          </div>
+        </div>
+        <div class="side-panel">
+          <div class="panel"><div class="sound-mini">🎓 Jawaban muncul otomatis saat waktu habis.</div></div>
+        </div>
+      </div>`;
+    let speakText;
+    if(item.kind==='math'){
+      const particle = SinoKorean.particle(item.b);
+      speakText = `${SinoKorean.toText(item.a)} ${MathMode.opWord(item.op)} ${SinoKorean.toText(item.b)}${particle}?`;
+    } else { speakText = qText; }
+    Voice.speak(speakText);
+    let remain = total;
+    const ring = document.getElementById('examTimerRing');
+    const t = setInterval(()=>{
+      remain--;
+      if(ring) ring.textContent = Math.max(remain,0);
+      if(remain<=0){ clearInterval(t); ExamMode.timeUp(); }
+    },1000);
+    Practice.timers.push(t);
+  },
+  markAttempted(){
+    Practice.state.attempted = true;
+    const btn = document.getElementById('examAttemptBtn');
+    if(btn){ btn.disabled = true; btn.textContent = '✓ Tercatat dijawab'; }
+  },
+  timeUp(){
+    Practice.clearTimers();
+    const st = Practice.state;
+    const item = st.list[st.index];
+    if(st.attempted) st.answeredInTime++; else st.missed++;
+    let ansText, speakText;
+    if(item.kind==='interview'){ ansText = item.a; speakText = item.a; }
+    else if(item.kind==='movement'){ ansText = item.translation||'(gerakan fisik)'; speakText = item.cmd; }
+    else { ansText = String(item.result); speakText = `${SinoKorean.toText(item.result)}입니다`; }
+    const box = document.getElementById('examAnswerBox');
+    if(box) box.innerHTML = `<div class="answer-box kr">${escapeHtml(ansText)}</div>`;
+    Voice.speak(speakText, ()=>{
+      const t = setTimeout(()=>this.next(), 1800);
+      Practice.timers.push(t);
+    });
+  },
+  next(){
+    const st = Practice.state;
+    if(st.index < st.list.length-1){ st.index++; this.renderQuestion(); }
+    else{ this.finish(); }
+  },
+  finish(){
+    Practice.clearTimers(); Voice.stop();
+    const st = Practice.state;
+    const graded = st.list.filter(x=>x.kind!=='intro');
+    const total = graded.length;
+    const pct = total? Math.round(st.answeredInTime/total*100):0;
+    History.add({modeName:'Simulasi Ujian', summary:`${st.answeredInTime} dijawab, ${st.missed} terlewat dari ${total}`, percent:pct});
+    document.getElementById('exam-play').style.display='none';
+    document.getElementById('exam-summary').style.display='block';
+    document.getElementById('exam-summary').innerHTML = `
+      <div class="summary-wrap">
+        <div class="summary-seal kr">시험</div>
+        <h1 class="display">Simulasi Selesai</h1>
+        <div class="summary-stats">
+          <div class="stat-box"><div class="n">${st.answeredInTime}</div><div class="l">Sempat Dijawab</div></div>
+          <div class="stat-box"><div class="n">${st.missed}</div><div class="l">Terlewat</div></div>
+          <div class="stat-box"><div class="n">${total}</div><div class="l">Total Soal</div></div>
+        </div>
+        <div class="row" style="justify-content:center;">
+          <button class="btn btn-primary" onclick="Nav.go('exam'); Practice.setup('exam')">Simulasi Lagi</button>
+          <button class="btn" onclick="Nav.go('home')">Kembali ke Beranda</button>
+        </div>
+      </div>`;
+  }
+};
+
+/* ============================================================
+   NATIVE KOREAN NUMBERS (untuk usia "살" & jumlah orang "명")
+   ============================================================ */
+const NativeKorean = {
+  ones:['','한','두','세','네','다섯','여섯','일곱','여덟','아홉'],
+  tens:['','열','스물','서른','마흔','쉰','예순','일흔','여든','아흔'],
+  toCounterForm(n){
+    n = parseInt(n)||0;
+    if(n<=0) return '영';
+    if(n<10) return this.ones[n];
+    if(n===20) return '스무';
+    const t = Math.floor(n/10), o = n%10;
+    return (this.tens[t]||'') + (o? this.ones[o] : '');
+  }
+};
+
+/* ============================================================
+   MODE: TEKS KE SUARA (TTS BEBAS)
+   ============================================================ */
+const TTSMode = {
+  setup(){
+    const body = document.getElementById('tts-body');
+    body.innerHTML = `
+      <span class="eyebrow" style="display:block;">Teks ke Suara</span>
+      <h1 class="display">Latihan Teks ke Suara</h1>
+      <p style="color:var(--muted); max-width:640px;">Ketik atau tempel teks bahasa Korea apa saja, lalu dengarkan pelafalannya. Simpan teks yang sering dipakai supaya bisa diputar lagi kapan pun tanpa mengetik ulang.</p>
+      <div class="dash-row">
+        <div class="panel">
+          <h3>Teks Korea</h3>
+          <div class="sub">Tulis bebas, lalu dengarkan atau simpan.</div>
+          <div class="field"><label>Judul Teks (opsional)</label><input type="text" id="ttsTitle" placeholder="contoh: Perkenalan Formal"></div>
+          <div class="field"><textarea id="ttsInput" class="kr" placeholder="안녕하세요, 만나서 반갑습니다."></textarea></div>
+          <div class="row">
+            <button class="btn btn-accent" onclick="TTSMode.speakCurrent()">🔊 Dengarkan</button>
+            <button class="btn btn-primary" onclick="TTSMode.saveCurrent()">💾 Simpan Teks</button>
+            <button class="btn btn-ghost" onclick="TTSMode.clearEditor()">Bersihkan</button>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Teks Tersimpan</h3>
+          <div class="sub" id="ttsListCount"></div>
+          <div id="ttsList"></div>
+        </div>
+      </div>`;
+    this.renderList();
+  },
+  clearEditor(){
+    document.getElementById('ttsInput').value='';
+    document.getElementById('ttsTitle').value='';
+    this._editingId = null;
+  },
+  speakCurrent(){
+    const text = (document.getElementById('ttsInput').value||'').trim();
+    if(!text) return;
+    Voice.speak(text);
+  },
+  saveCurrent(){
+    const text = (document.getElementById('ttsInput').value||'').trim();
+    if(!text) return;
+    const title = (document.getElementById('ttsTitle').value||'').trim();
+    const list = Store.get('tts_saved_texts', []);
+    if(this._editingId){
+      const item = list.find(x=>x.id===this._editingId);
+      if(item){ item.text = text; item.title = title; }
+      this._editingId = null;
+    }else{
+      list.unshift({id:uid(), title, text});
+    }
+    Store.set('tts_saved_texts', list);
+    this.clearEditor();
+    this.renderList();
+  },
+  renderList(){
+    const list = Store.get('tts_saved_texts', []);
+    document.getElementById('ttsListCount').textContent = `${list.length} teks tersimpan`;
+    const el = document.getElementById('ttsList');
+    if(!list.length){ el.innerHTML = '<div class="empty">Belum ada teks tersimpan.</div>'; return; }
+    el.innerHTML = list.map(item=>`
+      <div class="tts-saved-row">
+        <div class="ttl">${escapeHtml(item.title || 'Tanpa judul')}</div>
+        <div class="txt kr">${escapeHtml(item.text)}</div>
+        <div class="tts-row-actions">
+          <button class="btn btn-sm btn-accent" title="Dengarkan" onclick="Voice.speak('${escJs(item.text)}')">🔊 Dengarkan</button>
+          <button class="btn btn-sm" title="Muat ke kotak teks" onclick="TTSMode.loadToEditor('${item.id}')">✏️ Edit</button>
+          <button class="btn btn-sm btn-danger" title="Hapus" onclick="TTSMode.deleteSaved('${item.id}')">🗑️ Hapus</button>
+        </div>
+      </div>`).join('');
+  },
+  loadToEditor(id){
+    const list = Store.get('tts_saved_texts', []);
+    const item = list.find(x=>x.id===id);
+    if(!item) return;
+    document.getElementById('ttsInput').value = item.text;
+    document.getElementById('ttsTitle').value = item.title || '';
+    this._editingId = id;
+    window.scrollTo({top:0, behavior:'smooth'});
+  },
+  deleteSaved(id){
+    let list = Store.get('tts_saved_texts', []);
+    list = list.filter(x=>x.id!==id);
+    Store.set('tts_saved_texts', list);
+    this.renderList();
+  }
+};
+
+/* ============================================================
+   MODE: PERKENALAN DIRI
+   ============================================================ */
+const IntroMode = {
+  familyOptions:[
+    ['아버지','Ayah'],['어머니','Ibu'],['형','Kakak laki-laki (dari laki-laki)'],['오빠','Kakak laki-laki (dari perempuan)'],
+    ['누나','Kakak perempuan (dari laki-laki)'],['언니','Kakak perempuan (dari perempuan)'],
+    ['남동생','Adik laki-laki'],['여동생','Adik perempuan'],
+    ['아내','Istri'],['남편','Suami'],['아들','Anak laki-laki'],['딸','Anak perempuan'],
+    ['할아버지','Kakek'],['할머니','Nenek']
+  ],
+  selectedFamily:[],
+  setup(){
+    this.selectedFamily = [];
+    const body = document.getElementById('intro-body');
+    const thisYear = new Date().getFullYear();
+    const yearOpts = Array.from({length:60}, (_,i)=> thisYear-15-i).map(y=>`<option value="${y}" ${y===thisYear-25?'selected':''}>${y}</option>`).join('');
+    const monthOpts = Array.from({length:12}, (_,i)=>i+1).map(m=>`<option value="${m}">${m}</option>`).join('');
+    const dayOpts = Array.from({length:31}, (_,i)=>i+1).map(d=>`<option value="${d}">${d}</option>`).join('');
+    const ageOpts = Array.from({length:60}, (_,i)=>i+15).map(a=>`<option value="${a}" ${a===25?'selected':''}>${a}</option>`).join('');
+    const famOpts = Array.from({length:10}, (_,i)=>i+1).map(n=>`<option value="${n}" ${n===3?'selected':''}>${n} orang</option>`).join('');
+    const chipHtml = this.familyOptions.map(([kr,idLabel])=>`
+      <label class="chip-check" id="fam-${kr}">
+        <input type="checkbox" value="${kr}" onchange="IntroMode.toggleFamily('${kr}', this)">${idLabel} (${kr})
+      </label>`).join('');
+    body.innerHTML = `
+      <span class="eyebrow" style="display:block;">Perkenalan Diri</span>
+      <h1 class="display">Susun Teks Perkenalan Diri</h1>
+      <p style="color:var(--muted); max-width:640px;">Isi data di bawah ini — sebagian besar tinggal pilih, hanya nama dan hobi yang diketik manual. Teksnya akan otomatis tersusun rapi dalam bahasa Korea.</p>
+      <div class="dash-row">
+        <div class="panel">
+          <h3>Data Diri</h3>
+          <div class="field"><label>Nama Lengkap</label><input type="text" id="introNama" placeholder="Roy Setiawan"></div>
+          <div class="field"><label>Nama Panggilan</label><input type="text" id="introPanggilan" placeholder="Roy"></div>
+          <div class="row">
+            <div class="field" style="flex:1;"><label>Tahun Lahir</label><select id="introTahun">${yearOpts}</select></div>
+            <div class="field" style="flex:1;"><label>Bulan Lahir</label><select id="introBulan">${monthOpts}</select></div>
+            <div class="field" style="flex:1;"><label>Tanggal Lahir</label><select id="introTanggal">${dayOpts}</select></div>
+          </div>
+          <div class="field"><label>Umur</label><select id="introUmur">${ageOpts}</select></div>
+          <div class="field"><label>Hobi (ketik dalam bahasa Korea)</label><input type="text" id="introHobi" class="kr" placeholder="축구를 하">
+            <div class="small-note">Ditulis apa adanya sebelum kata "는 것입니다." — contoh: "축구를 하" akan jadi "축구를 하는 것입니다."</div>
+          </div>
+          <div class="field"><label>Status Pernikahan</label>
+            <select id="introNikah"><option value="belum">Belum Menikah</option><option value="sudah">Sudah Menikah</option></select>
+          </div>
+          <div class="field"><label>Jumlah Anggota Keluarga (termasuk diri sendiri)</label><select id="introJumlah">${famOpts}</select></div>
+          <div class="field"><label>Ada Siapa Saja di Keluarga (selain diri sendiri)</label>
+            <div class="chip-row">${chipHtml}</div>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="IntroMode.generate()">✍️ Buat Teks Perkenalan</button>
+        </div>
+        <div class="panel">
+          <h3>Hasil Teks Perkenalan</h3>
+          <div class="sub">Muncul di sini setelah kamu klik "Buat Teks Perkenalan".</div>
+          <div id="introResult"></div>
+        </div>
+      </div>`;
+    const profile = Store.get('intro_profile', null);
+    if(profile){
+      document.getElementById('introNama').value = profile.namaLengkap==='___'?'':profile.namaLengkap;
+      document.getElementById('introPanggilan').value = profile.namaPanggilan||'';
+      document.getElementById('introTahun').value = profile.tahun;
+      document.getElementById('introBulan').value = profile.bulan;
+      document.getElementById('introTanggal').value = profile.tanggal;
+      document.getElementById('introUmur').value = profile.umur;
+      document.getElementById('introHobi').value = profile.hobi==='___'?'':profile.hobi;
+      document.getElementById('introNikah').value = profile.nikah;
+      document.getElementById('introJumlah').value = profile.jumlah;
+      this.selectedFamily = (profile.members||[]).slice();
+      this.selectedFamily.forEach(kr=>{
+        const chip = document.getElementById('fam-'+kr);
+        if(chip){ chip.classList.add('on'); const cb = chip.querySelector('input'); if(cb) cb.checked = true; }
+      });
+    }
+  },
+  toggleFamily(kr, el){
+    const idx = this.selectedFamily.indexOf(kr);
+    if(el.checked){ if(idx===-1) this.selectedFamily.push(kr); }
+    else{ if(idx!==-1) this.selectedFamily.splice(idx,1); }
+    const chip = document.getElementById('fam-'+kr);
+    if(chip) chip.classList.toggle('on', el.checked);
+  },
+  build(){
+    const profile = {
+      namaLengkap: (document.getElementById('introNama').value||'').trim() || '___',
+      namaPanggilan: (document.getElementById('introPanggilan').value||'').trim(),
+      tahun: parseInt(document.getElementById('introTahun').value),
+      bulan: parseInt(document.getElementById('introBulan').value),
+      tanggal: parseInt(document.getElementById('introTanggal').value),
+      umur: parseInt(document.getElementById('introUmur').value),
+      hobi: (document.getElementById('introHobi').value||'').trim() || '___',
+      nikah: document.getElementById('introNikah').value,
+      jumlah: parseInt(document.getElementById('introJumlah').value),
+      members: this.selectedFamily.slice()
+    };
+    if(!profile.namaPanggilan) profile.namaPanggilan = profile.namaLengkap;
+    Store.set('intro_profile', profile);
+    return this.textFromProfile(profile);
+  },
+  textFromProfile(profile){
+    const lines = [];
+    lines.push('안녕하십니까?');
+    lines.push('만나서 반갑습니다.');
+    lines.push('자기소개를 하겠습니다.');
+    lines.push(`제 이름은 ${profile.namaLengkap}입니다. ${profile.namaPanggilan}라고 합니다.`);
+    lines.push('저는 인도네시아에서 왔습니다.');
+    lines.push(`제 나이는 ${NativeKorean.toCounterForm(profile.umur)}살 입니다.`);
+    lines.push(`제 생일은 ${SinoKorean.toText(profile.tahun)}년 ${SinoKorean.toText(profile.bulan)}월 ${SinoKorean.toText(profile.tanggal)}일입니다.`);
+    lines.push(`제 취미는 ${profile.hobi}는 것입니다.`);
+    lines.push(profile.nikah==='sudah' ? '저는 결혼했습니다.' : '저는 아직 결혼하지 않았습니다.');
+    const membersText = profile.members.length ? `${profile.members.join(', ')}, 그리고 저입니다.` : '저 혼자입니다.';
+    lines.push(`제 가족은 모두 ${NativeKorean.toCounterForm(profile.jumlah)}명입니다. ${membersText}`);
+    lines.push('저는 한국에서 일하고 싶습니다.');
+    lines.push('한국에서 열심히 일해서 돈을 많이 벌겠습니다.');
+    lines.push('앞으로 잘 부탁드립니다.');
+    lines.push('감사합니다.');
+    return lines.join('\n');
+  },
+  buildFromProfile(profile){ return this.textFromProfile(profile); },
+  generate(){
+    const text = this.build();
+    this._lastText = text;
+    const el = document.getElementById('introResult');
+    el.innerHTML = `
+      <div class="intro-preview kr">${escapeHtml(text)}</div>
+      <div class="row" style="margin-top:14px;">
+        <button class="btn btn-accent" onclick="IntroMode.speak()">🔊 Dengarkan Semua</button>
+        <button class="btn btn-primary" onclick="IntroMode.saveToTts()">💾 Simpan sebagai Teks TTS</button>
+      </div>`;
+  },
+  speak(){ if(this._lastText) Voice.speak(this._lastText.replace(/\n/g,' ')); },
+  saveToTts(){
+    if(!this._lastText) return;
+    const list = Store.get('tts_saved_texts', []);
+    list.unshift({id:uid(), title:'Perkenalan Diri', text:this._lastText});
+    Store.set('tts_saved_texts', list);
+    alert('Tersimpan di daftar Teks ke Suara.');
+  }
+};
+
+/* ============================================================
+   INIT
+   ============================================================ */
+Theme.init();
+Voice.loadVoices();
+Home.render();
+</script>
+</body>
+</html>
